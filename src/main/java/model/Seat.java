@@ -2,10 +2,10 @@ package model;
 
 public class Seat
 {
-    private int row;
-    private int no;
-    private int price;
-    private SeatType seatType;
+    private final int row;
+    private final int no;
+    private final int price;
+    private final SeatType seatType;
 
     public Seat(int row, int no, int price, SeatType seatType)
     {
@@ -14,7 +14,6 @@ public class Seat
         this.price = price;
         this.seatType = seatType;
     }
-
 
     public int getRow()
     {

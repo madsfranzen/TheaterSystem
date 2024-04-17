@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Customer {
 
-    private final String name;
-    private final String phoneNumber;
+    private String name;
+    private String phoneNumber;
 
     // Association Customer -> 0..* Booking
     private final ArrayList<Booking> bookings; // nullable
@@ -17,42 +17,9 @@ public class Customer {
         this.bookings = new ArrayList<>();
     }
 
-    public void addBooking(Booking booking)
-    {
-        bookings.add(booking);
-    }
-
-    public void removeBooking(Booking booking)
-    {
-        bookings.remove(booking);
-    }
-
-    public ArrayList<Booking> getBookings()
-    {
-        return new ArrayList<>(bookings);
-    }
-
     @Override
     public String toString()
     {
         return this.name;
     }
-
-
-    // Getter and setter methods
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public String getPhoneNumber()
-    {
-        return phoneNumber;
-    }
-
-
-
-
-
 }

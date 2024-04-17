@@ -15,6 +15,7 @@ public class TheaterApp {
     public static void main(String[] args) {
 
         initStorage();
+        testPrint();
         Application.launch(TheaterGUI.class);
     }
 
@@ -53,8 +54,6 @@ public class TheaterApp {
                 Controller.createSeat(i,j, calculatePrice(i,j), getSeatType(i,j));
             }
         }
-
-        testPrint();
     }
 
     private static int calculatePrice(int row, int seat)

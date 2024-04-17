@@ -20,44 +20,10 @@ public class Show
         this.bookings = new ArrayList<>();
     }
 
-
-    public void addBooking(Booking booking)
-    {
-        bookings.add(booking);
-    }
-
-    public void removeBooking(Booking booking)
-    {
-        bookings.remove(booking);
-    }
-
     @Override
     public String toString()
     {
         return this.name;
-    }
-
-
-    // Getter and setter methods
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public LocalDate getStartDate()
-    {
-        return startDate;
-    }
-
-    public LocalDate getEndDate()
-    {
-        return endDate;
-    }
-
-    public ArrayList<Booking> getBookings()
-    {
-        return bookings;
     }
 
 }

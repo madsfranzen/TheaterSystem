@@ -25,31 +25,4 @@ public class Booking
         this.seats = new ArrayList<>();
     }
 
-    public void addSeat(Seat seat)
-    {
-        seats.add(seat);
-    }
-
-    public void removeSeat(Seat seat)
-    {
-        seats.remove(seat);
-    }
-
-    public ArrayList<Seat> getSeats()
-    {
-        return new ArrayList<>(seats);
-    }
-
-    // Getter and setter methods
-
-    public LocalDate getDate()
-    {
-        return date;
-    }
-
-    public Customer getCustomer()
-    {
-        return customer;
-    }
-
 }
