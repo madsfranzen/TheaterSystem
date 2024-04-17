@@ -16,20 +16,20 @@ public class TheaterApp {
     }
 
     public static void initStorage() {
-        // Init seats
-        for (int i = 1; i < 16; i++) {
-            for (int j = 1; j < 21; j++) {
-                int price = priceCalculate(i, j);
-                SeatType seatType = seatTypeCalculate(i, j);
-                Controller.addSeat(i, j, price, seatType);
-            }
-        }
+
         Controller.addShow("Evita", LocalDate.of(2023, 8, 10), LocalDate.of(2023, 8, 20));
         Controller.addShow("Lykke Per", LocalDate.of(2023, 9, 01), LocalDate.of(2023, 9, 10));
         Controller.addShow("Chess", LocalDate.of(2023, 8, 21), LocalDate.of(2023, 8, 30));
         Controller.addCustomer("Anders Hansen", "28653746");
         Controller.addCustomer("Peter Jensen", "61652242");
         Controller.addCustomer("Niels Madsen", "56872261");
+
+        // Init seats
+        for (int i = 1; i < 16; i++) {
+            for (int j = 1; j < 21; j++) {
+                Controller.addSeat(i, j, priceCalculate(i, j), seatTypeCalculate(i, j));
+            }
+        }
     }
 
     public static int priceCalculate(int row, int column) {
@@ -60,6 +60,7 @@ public class TheaterApp {
     public static void testPrint() {
         System.out.println(Controller.getShows());
         System.out.println(Controller.getCustomers());
+
         for (int i = 0; i < Controller.getSeats().size(); i++) {
             if (i % 20 == 0) {
                 System.out.println("");

@@ -7,13 +7,12 @@ public class Show {
     private final String name;
     private final LocalDate startDate;
     private final LocalDate endDate;
-    private final ArrayList<Booking> bookings;
+    private final ArrayList<Booking> bookings = new ArrayList<>();
 
     public Show(String name, LocalDate startDate, LocalDate endDate) {
         this.endDate = endDate;
         this.startDate = startDate;
         this.name = name;
-        this.bookings = new ArrayList<>();
     }
 
     @Override

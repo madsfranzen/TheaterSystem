@@ -3,14 +3,13 @@ package model;
 import java.util.ArrayList;
 
 public class Customer {
-    String name;
-    String phoneNumber;
-    ArrayList<Booking> bookings;
+    private String name;
+    private String phoneNumber;
+    private final ArrayList<Booking> bookings = new ArrayList<>();
 
     public Customer(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.bookings = new ArrayList<>();
     }
 
     @Override
