@@ -82,7 +82,7 @@ public class TheaterApp {
 
         // Check for extra space
         if (row == 11 && (column > 7 && column < 13)){
-            seatType = SeatType.WHEEALCHAIR;
+            seatType = SeatType.EXTRASPACE;
         }
 
         return seatType;
