@@ -1,4 +1,4 @@
 package gui;
 
-public class TheaterGUI {
+public class TheaterGUI extends Application{
 }
