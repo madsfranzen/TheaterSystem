@@ -1,21 +1,25 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Customer {
+public class Show
+{
 
     private final String name;
-    private final String phoneNumber;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
 
-    // Association Customer -> 0..* Booking
-    private final ArrayList<Booking> bookings; // nullable
+    private final ArrayList<Booking> bookings;
 
-    public Customer(String name, String phoneNumber)
+    public Show(String name, LocalDate startDate, LocalDate endDate)
     {
         this.name = name;
-        this.phoneNumber = phoneNumber;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.bookings = new ArrayList<>();
     }
+
 
     public void addBooking(Booking booking)
     {
@@ -25,11 +29,6 @@ public class Customer {
     public void removeBooking(Booking booking)
     {
         bookings.remove(booking);
-    }
-
-    public ArrayList<Booking> getBookings()
-    {
-        return new ArrayList<>(bookings);
     }
 
     @Override
@@ -46,13 +45,19 @@ public class Customer {
         return name;
     }
 
-    public String getPhoneNumber()
+    public LocalDate getStartDate()
     {
-        return phoneNumber;
+        return startDate;
     }
 
+    public LocalDate getEndDate()
+    {
+        return endDate;
+    }
 
-
-
+    public ArrayList<Booking> getBookings()
+    {
+        return bookings;
+    }
 
 }
