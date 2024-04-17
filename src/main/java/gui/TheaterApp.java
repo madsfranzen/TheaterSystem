@@ -33,18 +33,27 @@ public class TheaterApp {
     }
 
     public static int priceCalculate(int row, int column) {
-        int price;
-        if (row < 6) {
-            if (column > 2 && column < 19) {
-                price = 500;
-            } else price = 450;
-        } else if (row < 11) {
-            if (column > 2 && column < 19) {
-                price = 450;
-            } else price = 400;
-        } else price = 400;
+        int price = 0;
+        int yellow = 500;
+        int green = 450;
+        int blue = 400;
+        if (row <= 5) {
+            price = yellow;
+            if (column <= 2 || column >= 19) {
+                price = green;
+            }
+        } else if (row <= 10) {
+            price = green;
+
+            if (column <= 2 || column >= 19) {
+                price = blue;
+            }
+        } else {
+            price = blue;
+        }
         return price;
     }
+
 
     public static SeatType seatTypeCalculate(int row, int column) {
         SeatType seatType = SeatType.STANDARD;
@@ -56,9 +65,8 @@ public class TheaterApp {
 
         // Check for extra space
         if (row == 11 && (column > 7 && column < 13)) {
-            seatType = SeatType.WHEELCHAIR;
+            seatType = SeatType.EXTRASPACE;
         }
-
         return seatType;
     }
 
