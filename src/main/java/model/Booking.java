@@ -29,6 +29,16 @@ public class Booking
         this.seats.add(seat);
     }
 
+    public ArrayList<Seat> getSeats()
+    {
+        return new ArrayList<>(this.seats);
+    }
+
+    public void removeSeat(Seat seat)
+    {
+        this.seats.remove(seat);
+    }
+
     public void setCustomer(Customer customer)
     {
         this.customer = customer;

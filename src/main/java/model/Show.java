@@ -25,6 +25,15 @@ public class Show
         this.bookings.add(booking);
     }
 
+    public void removeBooking(Booking booking)
+    {
+        this.bookings.remove(booking);
+    }
+
+    public ArrayList<Booking> getBookings()
+    {
+        return new ArrayList<>(this.bookings);
+    }
 
     @Override
     public String toString() {
