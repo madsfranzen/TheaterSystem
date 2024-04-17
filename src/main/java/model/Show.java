@@ -28,10 +28,6 @@ public class Show
 
     @Override
     public String toString() {
-        return "Show{" +
-                "name='" + name + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                '}';
+        return String.format("%s ( From: %s To: %s )", name, startDate, endDate);
     }
 }
