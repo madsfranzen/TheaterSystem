@@ -1,10 +1,9 @@
 package gui;
 
 import controller.Controller;
-import model.Customer;
+import javafx.application.Application;
 import model.Seat;
 import model.SeatType;
-import storage.Storage;
 
 import java.time.LocalDate;
 
@@ -13,93 +12,72 @@ public class TheaterApp {
     public static void main(String[] args) {
         initStorage();
         testPrint();
+        // Application.launch(TheaterGUI.class);
     }
-    private static void initStorage(){
-        // Create shows
-        Controller.createShow("Evita", LocalDate.parse("2023-08-10"), LocalDate.parse("2023-08-20"));
-        Controller.createShow("Lykke Per", LocalDate.parse("2023-09-01"), LocalDate.parse("2023-09-10"));
-        Controller.createShow("Chess", LocalDate.parse("2023-08-21"), LocalDate.parse("2023-08-30"));
 
-        // Create customers
-        Controller.createCustomer("Anders Hansen", "11223344");
-        Controller.createCustomer("Peter Hansen", "12345678");
-        Controller.createCustomer("Niels Madsen", "12341234");
+    public static void initStorage() {
 
+        Controller.createShow("Evita", LocalDate.of(2023, 8, 10), LocalDate.of(2023, 8, 20));
+        Controller.createShow("Lykke Per", LocalDate.of(2023, 9, 01), LocalDate.of(2023, 9, 10));
+        Controller.createShow("Chess", LocalDate.of(2023, 8, 21), LocalDate.of(2023, 8, 30));
+        Controller.createCustomer("Anders Hansen", "28653746");
+        Controller.createCustomer("Peter Jensen", "61652242");
+        Controller.createCustomer("Niels Madsen", "56872261");
+
+        // Init seats
         for (int i = 1; i < 16; i++) {
-            for (int j = 1; j < 21 ; j++) {
-                Controller.createSeat(i,j,calculatePrice(i,j),getSeatType(i,j));
+            for (int j = 1; j < 21; j++) {
+                Controller.createSeat(i, j, priceCalculate(i, j), seatTypeCalculate(i, j));
             }
         }
     }
 
-    private static int calculatePrice(int row, int column){
-        int yellowPrice = 500;
-        int greenPrice = 450;
-        int bluePrice = 400;
-        int seatPrice = 0;
+    public static int priceCalculate(int row, int column) {
+        int price = 0;
+        int yellow = 500;
+        int green = 450;
+        int blue = 400;
+        if (row <= 5) {
+            price = yellow;
+            if (column <= 2 || column >= 19) {
+                price = green;
+            }
+        } else if (row <= 10) {
+            price = green;
 
-        // Check for yellow seats
-        if ((row > 0 && row < 6) && (column > 2 && column < 19) ){
-            seatPrice = yellowPrice;
+            if (column <= 2 || column >= 19) {
+                price = blue;
+            }
+        } else {
+            price = blue;
         }
-
-        // Check for green seats
-        if ((row > 0 && row < 6) && (column > 0 && column < 3) ){
-            seatPrice = greenPrice;
-        }
-
-        if ((row > 0 && row < 6) && (column > 18 && column < 21) ){
-            seatPrice = greenPrice;
-        }
-
-        if ((row > 5 && row < 11) && (column > 2 && column < 19) ){
-            seatPrice = greenPrice;
-        }
-
-        // Check for blue seats
-        if ((row > 5 && row < 11) && (column > 0 && column < 3) ){
-            seatPrice = bluePrice;
-        }
-
-        if ((row > 5 && row < 11) && (column > 18 && column < 21) ){
-            seatPrice = bluePrice;
-        }
-
-        if ((row > 10 && row < 16) && (column > 0 && column < 21) ){
-            seatPrice = bluePrice;
-        }
-
-        return seatPrice;
+        return price;
     }
 
-    private static SeatType getSeatType(int row, int column){
+
+    public static SeatType seatTypeCalculate(int row, int column) {
         SeatType seatType = SeatType.STANDARD;
 
         // Check for wheelchair
-        if (row == 10 && (column > 7 && column < 13)){
-            seatType = SeatType.WHEEALCHAIR;
+        if (row == 10 && (column > 7 && column < 13)) {
+            seatType = SeatType.WHEELCHAIR;
         }
 
         // Check for extra space
-        if (row == 11 && (column > 7 && column < 13)){
+        if (row == 11 && (column > 7 && column < 13)) {
             seatType = SeatType.EXTRASPACE;
         }
-
         return seatType;
     }
 
-    private static void testPrint(){
-        for (Customer customer : Storage.getCustomers()){
-            System.out.println(customer.toString());
-        }
+    public static void testPrint() {
+        System.out.println(Controller.getShows());
+        System.out.println(Controller.getCustomers());
 
-        int count = 0;
-        for (Seat seat : Storage.getSeats()){
-            count++;
-            System.out.printf("%s ", seat.toString());
-
-            if (count % 20 == 0){
-                System.out.println();
+        for (int i = 0; i < Controller.getSeats().size(); i++) {
+            System.out.print(Controller.getSeats().get(i));
+            if (i % 20 == 0) {
+                System.out.println("");
             }
         }
     }

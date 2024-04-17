@@ -4,23 +4,49 @@ import model.*;
 import storage.Storage;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
-public abstract class Controller {
-    public static Customer createCustomer(String name, String phoneNumber){
+public class Controller {
+
+    // Tilføj klassen Controller i pakken controller. Klassen skal indeholde metoder til at oprette
+    //objekter af klasserne Forestilling, Kunde og Plads
+
+    public static Show createShow(String name, LocalDate startDate, LocalDate endDate)
+    {
+        Show show = new Show(name, startDate, endDate);
+        Storage.storeShow(show);
+        return show;
+    }
+
+    public static Customer createCustomer(String name, String phoneNumber)
+    {
         Customer customer = new Customer(name, phoneNumber);
         Storage.storeCustomer(customer);
         return customer;
     }
 
-    public static Seat createSeat(int row, int no, int price, SeatType seatType){
+    public static Seat createSeat(int row, int no, int price, SeatType seatType)
+    {
         Seat seat = new Seat(row, no, price, seatType);
         Storage.storeSeat(seat);
         return seat;
     }
 
-    public static Show createShow(String name, LocalDate startDate, LocalDate endDate){
-        Show show = new Show(name, startDate, endDate);
-        Storage.storeShow(show);
-        return show;
+    public static ArrayList<Show> getShows()
+    {
+        return Storage.getShows();
     }
+
+    public static ArrayList<Customer> getCustomers()
+    {
+        return Storage.getCustomer();
+    }
+
+    public static ArrayList<Seat> getSeats()
+    {
+        return Storage.getSeats();
+    }
+
+
+
 }

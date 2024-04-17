@@ -1,5 +1,5 @@
 package model;
 
 public enum SeatType {
-    STANDARD,EXTRASPACE, WHEEALCHAIR
+    STANDARD, EXTRASPACE, WHEELCHAIR
 }

@@ -1,20 +1,23 @@
 package model;
 
-public class Seat {
-    private int row;
-    private int no;
-    private int price;
-    private SeatType seatType;
+import java.util.ArrayList;
 
-    public Seat(int row, int no, int price, SeatType seatType) {
+public class Seat {
+    private final int row;
+    private final int number;
+    private final int price;
+    private final SeatType seatType;
+
+    public Seat(int row, int number, int price, SeatType seatType) {
         this.row = row;
-        this.no = no;
+        this.number = number;
         this.price = price;
         this.seatType = seatType;
     }
 
     @Override
     public String toString() {
-        return String.format("* Row no: %d | Seat no: %d | Price: %d | Seat type: %s *", row, no, price, seatType);
+        String str = " | " + row + " " + number + " " + price + " " + seatType + " ";
+        return String.format("%-25s", str);
     }
 }

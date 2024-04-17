@@ -3,25 +3,28 @@ package model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Show {
-    private String name;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private final ArrayList<Booking> bookings = new ArrayList<>();
+public class Show
+{
 
-    public Show(String name, LocalDate startDate, LocalDate endDate) {
+    private final String name;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
+
+    private final ArrayList<Booking> bookings;
+
+    public Show(String name, LocalDate startDate, LocalDate endDate)
+    {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.bookings = new ArrayList<>();
     }
 
-    public void addBooking(Booking booking){
-        bookings.add(booking);
+    public void addBooking(Booking booking)
+    {
+        this.bookings.add(booking);
     }
 
-    public void removeBooking(Booking booking){
-        bookings.remove(booking);
-    }
 
     @Override
     public String toString() {
@@ -29,7 +32,6 @@ public class Show {
                 "name='" + name + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", bookings=" + bookings +
                 '}';
     }
 }
