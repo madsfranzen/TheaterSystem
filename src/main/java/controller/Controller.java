@@ -1,40 +1,52 @@
 package controller;
 
-import model.Customer;
-import model.Seat;
-import model.SeatType;
-import model.Show;
+import model.*;
 import storage.Storage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public abstract class Controller {
+public class Controller {
 
-    public static void addShow(String name, LocalDate startDate, LocalDate endDate) {
+    // Tilføj klassen Controller i pakken controller. Klassen skal indeholde metoder til at oprette
+    //objekter af klasserne Forestilling, Kunde og Plads
+
+    public static Show createShow(String name, LocalDate startDate, LocalDate endDate)
+    {
         Show show = new Show(name, startDate, endDate);
         Storage.storeShow(show);
+        return show;
     }
 
-    public static void addCustomer(String name, String phoneNumber) {
+    public static Customer createCustomer(String name, String phoneNumber)
+    {
         Customer customer = new Customer(name, phoneNumber);
         Storage.storeCustomer(customer);
+        return customer;
     }
 
-    public static void addSeat(int row, int number, int price, SeatType seatType) {
-        Seat seat = new Seat(row, number, price, seatType);
+    public static Seat createSeat(int row, int no, int price, SeatType seatType)
+    {
+        Seat seat = new Seat(row, no, price, seatType);
         Storage.storeSeat(seat);
+        return seat;
     }
 
-    public static ArrayList<Show> getShows() {
+    public static ArrayList<Show> getShows()
+    {
         return Storage.getShows();
     }
 
-    public static ArrayList<Customer> getCustomers() {
-        return Storage.getCustomers();
+    public static ArrayList<Customer> getCustomers()
+    {
+        return Storage.getCustomer();
     }
 
-    public static ArrayList<Seat> getSeats() {
+    public static ArrayList<Seat> getSeats()
+    {
         return Storage.getSeats();
     }
+
+
+
 }
