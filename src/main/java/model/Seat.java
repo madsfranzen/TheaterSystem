@@ -15,9 +15,19 @@ public class Seat {
         this.seatType = seatType;
     }
 
+    public int getRow()
+    {
+        return row;
+    }
+
+    public int getNumber()
+    {
+        return number;
+    }
+
     @Override
     public String toString() {
-        String str = " | " + row + " " + number + " " + price + " " + seatType + " ";
-        return String.format("%-25s", str);
+        String str = "Row: "+ row + " No.: " + number + " (DKK " + price + " " + seatType + ")\n";
+        return String.format("%-20s", str);
     }
 }

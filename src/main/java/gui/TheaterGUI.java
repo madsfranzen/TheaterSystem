@@ -3,28 +3,43 @@ package gui;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.Customer;
+import model.Seat;
+import model.Show;
 
 public class TheaterGUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
 
+        stage.setTitle("Teater Bestiliinger");
+        GridPane container = new GridPane();
+        this.initContent(container);
 
-        stage.setTitle("Academy Xpress");
-        GridPane pane = new GridPane();
-        this.initContent(pane);
-
-        Scene scene = new Scene(pane);
+        Scene scene = new Scene(container);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
+    // ------------------------------------------------------------------------- //
+
     private void initContent(GridPane pane) {
-        pane.setPadding(new Insets(10));
-        pane.setHgap(10);
-        pane.setVgap(10);
-        pane.setGridLinesVisible(false);
+
+        pane.setGridLinesVisible(true);
+
+        GridPane paneShow = new ShowPane();
+        GridPane paneCustomer = new CustomerPane();
+        GridPane paneSeat = new SeatPane((ShowPane) paneShow, (CustomerPane) paneCustomer);
+
+        pane.add(paneShow,0,0);
+        pane.add(paneCustomer,1,0);
+        pane.add(paneSeat,2,0);
     }
+
 }

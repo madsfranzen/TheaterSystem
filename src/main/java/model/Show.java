@@ -25,22 +25,42 @@ public class Show
         this.bookings.add(booking);
     }
 
-    public void removeBooking(Booking booking)
-    {
-        this.bookings.remove(booking);
-    }
-
     public ArrayList<Booking> getBookings()
     {
         return new ArrayList<>(this.bookings);
     }
 
+   public boolean isSeatAvailable(int row, int no, LocalDate date)
+   {
+       boolean available = true;
+        for (Booking booking : bookings)
+        {
+            if (booking.getDate().equals(date))
+            {
+                for (Seat seat : booking.getSeats())
+                {
+                    if (seat.getRow() == row && seat.getNumber() == no)
+                    {
+                        available = false;
+                    }
+                }
+            }
+        }
+        return available;
+   }
+
+    public LocalDate getStartDate()
+    {
+        return startDate;
+    }
+
+    public LocalDate getEndDate()
+    {
+        return endDate;
+    }
+
     @Override
     public String toString() {
-        return "Show{" +
-                "name='" + name + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                '}';
+        return this.name + " (from " + this.startDate + " to " + this.endDate + ")";
     }
 }

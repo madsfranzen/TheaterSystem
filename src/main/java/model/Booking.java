@@ -34,13 +34,24 @@ public class Booking
         return new ArrayList<>(this.seats);
     }
 
-    public void removeSeat(Seat seat)
-    {
-        this.seats.remove(seat);
-    }
-
     public void setCustomer(Customer customer)
     {
         this.customer = customer;
+    }
+
+    public LocalDate getDate()
+    {
+        return date;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Booking{" +
+                "seats=" + seats +
+                ", show=" + show +
+                ", customer=" + customer +
+                ", date=" + date +
+                '}';
     }
 }

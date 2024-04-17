@@ -1,31 +1,25 @@
 package model;
 
 import java.util.ArrayList;
-import java.time.LocalDate;
 
 public class Customer {
 
     private String name;
-    private String phoneNumber;
+    private String mobile;
 
     // Association Customer -> 0..* Booking
     private final ArrayList<Booking> bookings; // nullable
 
-    public Customer(String name, String phoneNumber)
+    public Customer(String name, String mobile)
     {
         this.name = name;
-        this.phoneNumber = phoneNumber;
+        this.mobile = mobile;
         this.bookings = new ArrayList<>();
     }
 
     public void addBooking(Booking booking)
     {
         this.bookings.add(booking);
-    }
-
-    public void removeBooking(Booking booking)
-    {
-        this.bookings.remove(booking);
     }
 
     public ArrayList<Booking> getBookings()

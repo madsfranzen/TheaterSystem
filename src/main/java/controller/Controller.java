@@ -8,8 +8,30 @@ import java.util.ArrayList;
 
 public class Controller {
 
-    // Tilføj klassen Controller i pakken controller. Klassen skal indeholde metoder til at oprette
-    //objekter af klasserne Forestilling, Kunde og Plads
+
+    public static Booking createBookingWithSeats(Show show, Customer customer, LocalDate date, ArrayList<Seat> seats)
+    {
+        Booking booking = null;
+        boolean seatsAvailable = true;
+        for (Seat seat : seats)
+        {
+           if (!show.isSeatAvailable(seat.getRow(), seat.getNumber(), date))
+           {
+               seatsAvailable = false;
+           }
+        }
+        if(seatsAvailable)
+        {
+            booking = new Booking(date, customer, show);
+            show.addBooking(booking);
+
+            for (Seat seat : seats)
+            {
+                booking.addSeat(seat);
+            }
+        }
+        return booking;
+    }
 
     public static Show createShow(String name, LocalDate startDate, LocalDate endDate)
     {
@@ -18,9 +40,9 @@ public class Controller {
         return show;
     }
 
-    public static Customer createCustomer(String name, String phoneNumber)
+    public static Customer createCustomer(String name, String mobile)
     {
-        Customer customer = new Customer(name, phoneNumber);
+        Customer customer = new Customer(name, mobile);
         Storage.storeCustomer(customer);
         return customer;
     }
