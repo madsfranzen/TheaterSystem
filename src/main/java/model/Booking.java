@@ -9,7 +9,7 @@ public class Booking
     private final LocalDate date;
 
     // Association Booking -> 1 Customer
-    private final Customer customer;
+    private Customer customer;
 
     // Composition Booking -> 1 Customer
     private final Show show;
@@ -25,4 +25,13 @@ public class Booking
         this.seats = new ArrayList<>();
     }
 
+    public void addSeat(Seat seat)
+    {
+        this.seats.add(seat);
+    }
+
+    public void setCustomer(Customer customer)
+    {
+        this.customer = customer;
+    }
 }

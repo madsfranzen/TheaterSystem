@@ -20,6 +20,12 @@ public class Show
         this.bookings = new ArrayList<>();
     }
 
+    public void addBooking(Booking booking)
+    {
+        this.bookings.add(booking);
+    }
+
+
     @Override
     public String toString()
     {

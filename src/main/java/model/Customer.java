@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 
 public class Customer {
@@ -15,6 +16,11 @@ public class Customer {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.bookings = new ArrayList<>();
+    }
+
+    public void addBooking(Booking booking)
+    {
+        this.bookings.add(booking);
     }
 
     @Override
