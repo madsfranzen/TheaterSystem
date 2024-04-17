@@ -48,12 +48,17 @@ public class TheaterApp {
 
     public static SeatType seatTypeCalculate(int row, int column) {
         SeatType seatType = SeatType.STANDARD;
-        if (row == 10 && (column == 8 || column == 9 || column == 10 || column == 11 || column == 12)) {
+
+        // Check for wheelchair
+        if (row == 10 && (column > 7 && column < 13)) {
             seatType = SeatType.WHEELCHAIR;
         }
-        if (row == 11 && (column == 8 || column == 9 || column == 10 || column == 11 || column == 12)) {
-            seatType = SeatType.EXTRASPACE;
+
+        // Check for extra space
+        if (row == 11 && (column > 7 && column < 13)) {
+            seatType = SeatType.WHEELCHAIR;
         }
+
         return seatType;
     }
 
