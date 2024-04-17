@@ -12,4 +12,10 @@ public class Seat {
         this.price = price;
         this.seatType = seatType;
     }
+
+    @Override
+    public String toString() {
+        String str = " | " + row + ", " +number + ", " + price + ", " + seatType + " ";
+        return String.format("%-25s" , str);
+    }
 }

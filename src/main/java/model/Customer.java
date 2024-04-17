@@ -12,4 +12,12 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.bookings = new ArrayList<>();
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 }

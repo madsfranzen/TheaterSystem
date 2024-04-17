@@ -8,6 +8,7 @@ import model.Show;
 import storage.Storage;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public abstract class Controller {
     public static void addShow(String name, LocalDate startdate, LocalDate enddate){
@@ -21,5 +22,14 @@ public abstract class Controller {
     public static void addSeat(int Row, int number, int price, SeatType seatType){
         Seat seat = new Seat(Row,number,price,seatType);
         Storage.storeSeat(seat);
+    }
+    public static ArrayList<Show> getShows(){
+        return Storage.getShows();
+    }
+    public static ArrayList<Customer> getCustomer(){
+        return Storage.getCustomers();
+    }
+    public static ArrayList<Seat> getSeats(){
+        return Storage.getSeats();
     }
 }

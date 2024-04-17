@@ -8,9 +8,9 @@ import model.Show;
 import java.util.ArrayList;
 
 public abstract class Storage {
-    private static ArrayList<Seat> seats;
-    private static ArrayList<Customer> customers;
-    private static ArrayList<Show> shows;
+    private static ArrayList<Seat> seats = new ArrayList<>();
+    private static ArrayList<Customer> customers = new ArrayList<>();
+    private static ArrayList<Show> shows = new ArrayList<>();
 
     public static ArrayList<Seat> getSeats() {
         return seats;

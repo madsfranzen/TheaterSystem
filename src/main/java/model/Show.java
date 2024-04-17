@@ -15,4 +15,13 @@ public class Show {
         this.endDate = endDate;
         this.bookings = new ArrayList<>();
     }
+
+    @Override
+    public String toString() {
+        return "Show{" +
+                "name='" + name + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }
