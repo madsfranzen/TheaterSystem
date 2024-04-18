@@ -6,7 +6,7 @@ import storage.Storage;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Controller {
+public abstract class Controller {
 
     // Tilføj klassen Controller i pakken controller. Klassen skal indeholde metoder til at oprette
     //objekter af klasserne Forestilling, Kunde og Plads
