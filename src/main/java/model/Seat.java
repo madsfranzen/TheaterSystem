@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Seat {
     private final int row;
     private final int number;
@@ -15,7 +17,7 @@ public class Seat {
 
     @Override
     public String toString() {
-        String str = " | " + row + ", " +number + ", " + price + ", " + seatType + " ";
-        return String.format("%-25s" , str);
+        String str = " | " + row + " " + number + " " + price + " " + seatType + " ";
+        return String.format("%-25s", str);
     }
 }
