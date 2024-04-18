@@ -31,6 +31,28 @@ public abstract class Controller {
         Storage.storeSeat(seat);
         return seat;
     }
+    public static Booking createBooking(Show show,Customer customer,LocalDate date, ArrayList<Seat> seats){
+        Booking booking = new Booking(date,customer,show);
+        if(date.plusDays(1).isAfter(show.getStartDate()) && date.minusDays(1).isBefore(show.getEndDate())){
+            for (Seat s: seats){
+                int row = s.getRow();
+                int number = s.getNumber();
+                if(!show.isSeatAvaliable(row,number,date)){
+                    booking = null;
+                }
+                else{
+
+                }
+            }
+        }
+        else{
+            booking = null;
+        }
+        if (booking != null){
+            Storage.storeBooking(booking);
+        }
+        return booking;
+    }
 
     public static ArrayList<Show> getShows()
     {

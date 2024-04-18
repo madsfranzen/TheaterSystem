@@ -19,6 +19,14 @@ public class Show
         this.bookings = new ArrayList<>();
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
     public void addBooking(Booking booking)
     {
         this.bookings.add(booking);
