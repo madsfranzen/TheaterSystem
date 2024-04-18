@@ -9,7 +9,6 @@ public class Show
     private final String name;
     private final LocalDate startDate;
     private final LocalDate endDate;
-
     private final ArrayList<Booking> bookings;
 
     public Show(String name, LocalDate startDate, LocalDate endDate)
@@ -33,5 +32,18 @@ public class Show
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 '}';
+    }
+    public boolean isSeatAvaliable(int row, int nr, LocalDate date){
+        boolean avaliable = true;
+        for (Booking b : bookings){
+            if (b.getDate() == date){
+                for (Seat s: b.getSeats()){
+                    if(s.getNumber() == nr && s.getRow() == row){
+                        avaliable = false;
+                    }
+                }
+            }
+        }
+        return avaliable;
     }
 }

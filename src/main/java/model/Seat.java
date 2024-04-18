@@ -15,6 +15,14 @@ public class Seat {
         this.seatType = seatType;
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
     @Override
     public String toString() {
         String str = " | " + row + " " + number + " " + price + " " + seatType + " ";

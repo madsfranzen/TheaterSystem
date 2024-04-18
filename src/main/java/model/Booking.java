@@ -24,6 +24,14 @@ public class Booking
         this.seats = new ArrayList<>();
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public ArrayList<Seat> getSeats() {
+        return seats;
+    }
+
     public void addSeat(Seat seat)
     {
         this.seats.add(seat);
