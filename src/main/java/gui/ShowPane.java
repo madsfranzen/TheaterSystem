@@ -15,8 +15,8 @@ public class ShowPane extends GridPane
 
     private final ListView<Show> lvwShows = new ListView<>();
     private final TextField txfName = new TextField();
-    private final TextField txfStartDate = new TextField();
-    private final TextField txfEndDate = new TextField();
+    private final DatePicker dprStartDate = new DatePicker();
+    private final DatePicker dprEndDate = new DatePicker();
     private final Alert alert = new Alert(Alert.AlertType.ERROR);
     private final Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
 
@@ -34,22 +34,19 @@ public class ShowPane extends GridPane
         lvwShows.setPrefSize(300,200);
         lvwShows.getItems().setAll(Controller.getShows());
 
-        // Name (lbl and textfield)
         Label lblName = new Label("Name:");
         this.add(lblName,0,2);
         this.add(txfName,1,2);
 
-        // Start date (lbl and textfield)
         Label lblStartDate = new Label("Start date:");
         this.add(lblStartDate,0,3);
-        this.add(txfStartDate,1,3);
-        txfStartDate.setPromptText("YYYY-MM-DD");
+        this.add(dprStartDate,1,3);
+        dprStartDate.setPromptText("DD/MM/YYYY");
 
-        // End date (lbl and textfield)
         Label lblEndDate = new Label("End date:");
         this.add(lblEndDate,0,4);
-        this.add(txfEndDate,1,4);
-        txfEndDate.setPromptText("YYYY-MM-DD");
+        this.add(dprEndDate,1,4);
+        dprEndDate.setPromptText("DD/MM/YYYY");
 
         Button btnCreateShow = new Button("Create Show");
         this.add(btnCreateShow,1,5);
@@ -60,6 +57,9 @@ public class ShowPane extends GridPane
 
     }
 
+    /*
+     * Returns the selected show
+     * */
     public Show getSelectedShow()
     {
         return lvwShows.getSelectionModel().getSelectedItem();
@@ -70,52 +70,37 @@ public class ShowPane extends GridPane
     * */
     private void createShowAction() {
         String name = txfName.getText().trim();
-        LocalDate startDate;
-        LocalDate endDate;
+        LocalDate startDate = dprStartDate.getValue();
+        LocalDate endDate = dprEndDate.getValue();
 
         // Checking if name is empty
         if (name.isEmpty()) {
             alert.setContentText("Please enter a name for the show.");
             alert.show();
-            return;
-        }
-
-        // Checking if startDate is before todays date and if the format is valid
-        try {
-            startDate = LocalDate.parse(txfStartDate.getText());
-            if (startDate.isBefore(LocalDate.now())) {
-                alert.setContentText("Start date cannot be before today's date.");
-                alert.show();
-                return;
-            }
-        } catch (DateTimeParseException e) {
-            alert.setContentText("Invalid start date format.");
+        } else if (startDate == null)
+        {
+            alert.setContentText("Please select a start date");
             alert.show();
-            return;
         }
-
-        // Checking if endDate is before startDate and if the format is valid
-        try {
-            endDate = LocalDate.parse(txfEndDate.getText());
-            if (endDate.isBefore(startDate)) {
+        else if (endDate == null)
+        {
+            alert.setContentText("Please select a end date");
+            alert.show();
+        } else if (startDate.isBefore(LocalDate.now())) {
+            alert.setContentText("Start date cannot be before today's date.");
+            alert.show();
+        } else if (endDate.isBefore(startDate)) {
                 alert.setContentText("End date cannot be before start date.");
                 alert.show();
-                return;
-            }
-        } catch (DateTimeParseException e) {
-            alert.setContentText("Invalid end date format.");
-            alert.show();
-            return;
-        }
-
-        // Showing the confirmation alert
-        Optional<ButtonType> result = confirmation.showAndWait();
-
-        // If user confirms a new show is created
-        if (result.isPresent() && (result.get() == ButtonType.OK))
+        } else
         {
-            Controller.createShow(name, startDate, endDate);
-            updateControls();
+            Optional<ButtonType> result = confirmation.showAndWait();
+
+            if (result.isPresent() && (result.get() == ButtonType.OK))
+            {
+                Controller.createShow(name, startDate, endDate);
+                updateControls();
+            }
         }
     }
 
@@ -127,7 +112,9 @@ public class ShowPane extends GridPane
         lvwShows.getItems().setAll(Controller.getShows());
         lvwShows.getSelectionModel().select(Controller.getShows().size() - 1);
         txfName.clear();
-        txfStartDate.clear();
-        txfEndDate.clear();
+        dprStartDate.getEditor().clear();
+        dprEndDate.getEditor().clear();
+        dprStartDate.setValue(null);
+        dprEndDate.setValue(null);
     }
 }

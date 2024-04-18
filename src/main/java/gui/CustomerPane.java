@@ -33,12 +33,10 @@ public class CustomerPane extends GridPane
         lvwCustomers.setPrefSize(300,200);
         lvwCustomers.getItems().setAll(Controller.getCustomers());
 
-        // Name (lbl and textfield)
         Label lblName = new Label("Customer name:");
         this.add(lblName,0,2);
         this.add(txfName,1,2);
 
-        // Start date (lbl and textfield)
         Label lblMobile = new Label("Customer mobile:");
         this.add(lblMobile,0,3);
         this.add(txfMobile,1,3);
@@ -53,45 +51,45 @@ public class CustomerPane extends GridPane
 
     }
 
-    // Method to get the selected customer
+    /*
+    * Returns the selected customer
+    * */
     public Customer getSelectedCustomer() {
         return lvwCustomers.getSelectionModel().getSelectedItem();
     }
 
     /*
-     * Creates a show given the name, startDate and endDate
+     * Creates a customer given the name and mobile
      * */
     private void createCustomerAction() {
         String name = txfName.getText().trim();
         String mobile = txfMobile.getText().trim();
+        boolean createCustomer = true;
 
-        // Checking if name is empty
         if (name.isEmpty()) {
             alert.setContentText("Please enter a name for the customer.");
             alert.show();
-            return;
-        }
-
-        // Checking if name is empty
-        if (mobile.length() < 8) {
+            createCustomer = false;
+        } else if (mobile.length() < 8) {
             alert.setContentText("Please enter an 8 digit phone number for the customer.");
             alert.show();
-            return;
+            createCustomer = false;
         }
 
-        // Showing the confirmation alert
-        Optional<ButtonType> result = confirmation.showAndWait();
-
-        // If user confirms a new show is created
-        if (result.isPresent() && (result.get() == ButtonType.OK))
+        if (createCustomer)
         {
-            Controller.createCustomer(name, mobile);
-            updateControls();
+            Optional<ButtonType> result = confirmation.showAndWait();
+
+            if (result.isPresent() && (result.get() == ButtonType.OK))
+            {
+                Controller.createCustomer(name, mobile);
+                updateControls();
+            }
         }
     }
 
     /*
-     * Updates and selects new show in listview and resets name, startDate, endDate.
+     * Updates and selects new customer in listview and resets name, mobile
      * */
     private void updateControls()
     {
