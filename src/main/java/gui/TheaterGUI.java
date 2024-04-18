@@ -1,19 +1,14 @@
 package gui;
 
-import controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Customer;
 import model.Show;
-import storage.Storage;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class TheaterGUI extends Application {
 
@@ -21,7 +16,7 @@ public class TheaterGUI extends Application {
     public void start(Stage stage) throws Exception {
 
 
-        stage.setTitle("Academy Xpress");
+        stage.setTitle("Theater Booking System");
         GridPane pane = new GridPane();
         this.initContent(pane);
 
@@ -37,139 +32,64 @@ public class TheaterGUI extends Application {
     private final TextField txfEndDate = new TextField();
     private final TextField txfCustomerName = new TextField();
     private final TextField txfPhoneNumber = new TextField();
+    private ShowPane showPane;
+    private CustomerPane customerPane;
+    private SeatPane seatPane;
 
-    private void initContent(GridPane pane) {
-        pane.setPadding(new Insets(10));
-        pane.setHgap(10);
-        pane.setVgap(10);
-        pane.setGridLinesVisible(false);
+    private void initContent(GridPane mainPain) {
+        mainPain.setPadding(new Insets(10));
+        mainPain.setHgap(0);
+        mainPain.setVgap(10);
+        mainPain.setGridLinesVisible(false);
 
-        // Add labels
-        int _lblWidth = 100;
+        // Set sub-panes
+        showPane = new ShowPane(this);
+        customerPane = new CustomerPane(this);
+        seatPane = new SeatPane(this);
+        // Add sub-panes
+        mainPain.add(showPane,0,0);
+        mainPain.add(customerPane,1,0);
+        mainPain.add(seatPane,2,0);
 
-        Label lblShow = new Label("Shows");
-        lblShow.setPrefWidth(_lblWidth);
-        pane.add(lblShow,0,0);
+        // Upadate panes
+        updatePaneControls();
 
-        Label lblShowName = new Label("Name:");
-        lblShowName.setPrefWidth(_lblWidth);
-        pane.add(lblShowName,0,2);
-
-        Label lblShowStartDate = new Label("Start Date:");
-        lblShowStartDate.setPrefWidth(_lblWidth);
-        pane.add(lblShowStartDate,0,3);
-
-        Label lblShowEndDate = new Label("End Date:");
-        lblShowEndDate.setPrefWidth(_lblWidth);
-        pane.add(lblShowEndDate,0,4);
-
-        Label lblCustomer = new Label("Customers");
-        lblCustomer.setPrefWidth(_lblWidth);
-        pane.add(lblCustomer,2,0);
-
-        Label lblCustomerName = new Label("Customer Name:");
-        lblCustomerName.setPrefWidth(_lblWidth);
-        pane.add(lblCustomerName,2,2);
-
-        Label lblCustomerPhoneNumber = new Label("Customer Mobile:");
-        lblCustomerPhoneNumber.setPrefWidth(_lblWidth);
-        pane.add(lblCustomerPhoneNumber,2,3);
-
-        // Add list views
-        int _lvwWidht = 250;
-        int _lvwHeight = 250;
-
-        lvwShows.setPrefWidth(_lvwWidht);
-        lvwShows.setPrefHeight(_lvwHeight);
-        lvwShows.setEditable(false);
-        pane.add(lvwShows,0,1,2,1);
-
-        lvwCustomers.setPrefWidth(_lvwWidht);
-        lvwCustomers.setPrefHeight(_lvwHeight);
-        lvwCustomers.setEditable(false);
-        pane.add(lvwCustomers,2,1,2,1);
-
-        // Add text fields
-        int _txfWidth = 100;
-
-        txfShowName.setPrefWidth(_txfWidth);
-        pane.add(txfShowName,1,2);
-
-        txfStartDate.setPrefWidth(_txfWidth);
-        txfStartDate.setPromptText("YYYY-MM-DD");
-        pane.add(txfStartDate,1,3);
-
-        txfEndDate.setPrefWidth(_txfWidth);
-        txfEndDate.setPromptText("YYYY-MM-DD");
-        pane.add(txfEndDate,1,4);
-
-        txfCustomerName.setPrefWidth(_txfWidth);
-        pane.add(txfCustomerName,3,2);
-
-        txfPhoneNumber.setPrefWidth(_txfWidth);
-        pane.add(txfPhoneNumber,3,3);
-
-        // Add buttons
-        Button btnCreateShow = new Button("Create Show");
-        pane.add(btnCreateShow,1,5);
-
-        Button btnCreateCustomer = new Button("Create Customer");
-        pane.add(btnCreateCustomer,3,4);
-
-        // Button actions
-        btnCreateShow.setOnAction(actionEvent -> actionCreateShow());
-        btnCreateCustomer.setOnAction(actionEvent -> actionCreateCustomer());
-
-        // Update window
-        updateControls();
     }
 
-    private void updateControls(){
-        // Update list views
-        lvwCustomers.getItems().setAll(Storage.getCustomer());
-        lvwShows.getItems().setAll(Storage.getShows());
-
-        // Clear text fields
-        txfShowName.clear();
-        txfStartDate.clear();
-        txfEndDate.clear();
-        txfCustomerName.clear();
-        txfPhoneNumber.clear();
+    public void updatePaneControls(){
+        showPane.updateControls();
+        customerPane.updateControls();
+        seatPane.updateControls(true);
     }
 
-    private void actionCreateShow(){
-        String showName = txfShowName.getText().trim();
-        String startDate = txfStartDate.getText().trim();
-        String endDate = txfEndDate.getText().trim();
-        boolean validDates = true;
-
-        // Validate date info
-        try {
-            LocalDate startLocalDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            LocalDate endLocalDate = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        }catch (DateTimeParseException e){
-            infomationDialog("Date information","Please make sure that date fields are formatted correctly.");
-            validDates = false;
-        }
-
-        if (validDates){
-            Controller.createShow(showName,LocalDate.parse(startDate),LocalDate.parse(endDate));
-            updateControls();
-        }
-    }
-
-    private void actionCreateCustomer(){
-        String customerName = txfCustomerName.getText().trim();
-        String customerPhoneNumber = txfPhoneNumber.getText().trim();
-
-        Controller.createCustomer(customerName,customerPhoneNumber);
-        updateControls();
-    }
-
-    private void infomationDialog(String titel, String infoText){
+    public void informationDialogue(String titel, String infoText){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titel);
         alert.setHeaderText(infoText);
         alert.showAndWait();
+    }
+
+    public static Border getBorder(){
+        BorderStroke borderStroke = new BorderStroke(
+                Color.BLACK,
+                BorderStrokeStyle.SOLID,
+                null,                                    // rounded corners
+                new BorderWidths(0,1,0,0)            // top, right, bottom, left
+        );
+
+        Border border = new Border(borderStroke);
+        return border;
+    }
+
+    public CustomerPane getCustomerPane() {
+        return customerPane;
+    }
+
+    public ShowPane getShowPane() {
+        return showPane;
+    }
+
+    public SeatPane getSeatPane() {
+        return seatPane;
     }
 }

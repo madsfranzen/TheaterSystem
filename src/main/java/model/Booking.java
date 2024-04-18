@@ -29,8 +29,15 @@ public class Booking
         this.seats.add(seat);
     }
 
+    public ArrayList<Seat> getSeats(){
+        return new ArrayList<>(seats);
+    }
     public void setCustomer(Customer customer)
     {
         this.customer = customer;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 }

@@ -75,10 +75,10 @@ public class TheaterApp {
         System.out.println(Controller.getCustomers());
 
         for (int i = 0; i < Controller.getSeats().size(); i++) {
-            System.out.print(Controller.getSeats().get(i));
             if (i % 20 == 0) {
                 System.out.println("");
             }
+            System.out.print(Controller.getSeats().get(i));
         }
     }
 }

@@ -7,10 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Controller {
-
-    // Tilføj klassen Controller i pakken controller. Klassen skal indeholde metoder til at oprette
-    //objekter af klasserne Forestilling, Kunde og Plads
-
+    
     public static Show createShow(String name, LocalDate startDate, LocalDate endDate)
     {
         Show show = new Show(name, startDate, endDate);
@@ -47,6 +44,37 @@ public class Controller {
         return Storage.getSeats();
     }
 
+    /**
+     *
+     * @param show
+     * @param customer
+     * @param date
+     * @param seats
+     * @return booking
+     * Note: If a booking can't be done then the method returns null.
+     */
+    public static Booking createBookingWithSeats(Show show, Customer customer, LocalDate date, ArrayList<Seat> seats){
+        Booking booking = null;
+        boolean validBooking = true;
 
+        if (show.isShowActiveOnDate(date)){
+            for (Seat seat : seats){
+                if (!show.isSeatAvailable(seat.getRow(),seat.getNumber(),date)){
+                    validBooking = false;
+                }
+            }
+        }
+
+        if (validBooking){
+            booking = new Booking(date,customer,show);
+            for (Seat seat : seats){
+                booking.addSeat(seat);
+            }
+
+            show.addBooking(booking);
+            customer.addBooking(booking);
+        }
+        return booking;
+    }
 
 }

@@ -23,6 +23,10 @@ public class Customer {
         this.bookings.add(booking);
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString()
     {
