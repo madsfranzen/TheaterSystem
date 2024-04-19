@@ -195,8 +195,8 @@ public class TheaterGUI extends Application {
     }
 
     public void btnConfirmBookingAction() {
-        Show show = (Show) lvwShows.getSelectionModel().getSelectedItem();
-        Customer customer = (Customer) lvwCustomers.getSelectionModel().getSelectedItem();
+        Show show = showPane.getSelectedShow();
+        Customer customer = customerPane.getSelectedCustomer();
         LocalDate date = dpDateBooking.getValue();
         ArrayList<Seat> seats = new ArrayList<>();
         seats.addAll(lvwSeats.getSelectionModel().getSelectedItems());
