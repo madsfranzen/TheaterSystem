@@ -25,12 +25,6 @@ public class TheaterGUI extends Application {
     private SeatPane seatPane;
     private StatisticsPane statisticsPane;
 
-    private Alert alertHard;
-    private Alert alertNormal;
-    private Alert alertDate;
-    private Alert alertSeatNotFree;
-    private Alert confirmation;
-
     private Stage stage;
     private Stage dialog = new Stage();
 
@@ -42,22 +36,6 @@ public class TheaterGUI extends Application {
         stage.setTitle("Theater Booking System");
         GridPane pane = new GridPane();
         this.initContent(pane);
-
-        alertHard = new Alert(Alert.AlertType.ERROR);
-        alertHard.setTitle("Error");
-        alertHard.setHeaderText("Please select Show, Customer and Date before picking seats.");
-
-        alertNormal = new Alert(Alert.AlertType.ERROR);
-        alertNormal.setTitle("Error");
-        alertNormal.setHeaderText("Please select Show, Customer, Date and Seat.");
-
-        alertDate = new Alert(Alert.AlertType.ERROR);
-        alertDate.setTitle("Error");
-        alertDate.setHeaderText("Date must be between start and end date of show.");
-
-        alertSeatNotFree = new Alert(Alert.AlertType.ERROR);
-        alertSeatNotFree.setTitle("Error");
-        alertSeatNotFree.setHeaderText("This seat has already been reserved.");
 
 
         Scene scene = new Scene(pane);
@@ -122,40 +100,6 @@ public class TheaterGUI extends Application {
         return border;
     }
 
-
-//    public void updateContent() {
-//        lvwShows.getItems().setAll(Controller.getShows());
-//        lvwCustomers.getItems().setAll(Controller.getCustomers());
-//        lvwSeats.getItems().setAll(Controller.getSeats());
-//        txfShowName.clear();
-//        txfCustomerName.clear();
-//        txfCustomerPhone.clear();
-//        dpStartDate.setValue(null);
-//        dpEndDate.setValue(null);
-//        dpDateBooking.setValue(null);
-//    }
-
-//    public void btnCreateShowAction() {
-//        String name = txfShowName.getText().trim();
-//        LocalDate startDate = dpStartDate.getValue();
-//        LocalDate endDate = dpEndDate.getValue();
-//        if (!name.isEmpty() && startDate != null && endDate != null) {
-//            if (startDate.isBefore(endDate.plusDays(1))) {
-//                Controller.createShow(name, startDate, endDate);
-//                updateContent();
-//            }
-//        }
-//    }
-
-//    public void btnCreateCustomerAction() {
-//        String name = txfCustomerName.getText().trim();
-//        String phoneNumber = txfCustomerPhone.getText().trim();
-//        if (!name.isEmpty() && !phoneNumber.isEmpty()) {
-//            Controller.createCustomer(name, phoneNumber);
-//            updateContent();
-//        }
-//    }
-
     public void btnHardWayAction() {
         Show show = showPane.getSelectedShow();
         Customer customer = customerPane.getSelectedCustomer();
@@ -165,45 +109,11 @@ public class TheaterGUI extends Application {
                 SeatWindow.paintReservedSeats();
                 dialog.showAndWait();
             } else {
-                alertDate.show();
+                seatPane.getAlertDate().show();
             }
-        } else alertHard.show();
+        } else seatPane.getAlertHard().show();
     }
 
-//    public void btnConfirmBookingAction() {
-//        Show show = showPane.getSelectedShow();
-//        Customer customer = customerPane.getSelectedCustomer();
-//        LocalDate date = dpDateBooking.getValue();
-//        ArrayList<Seat> seats = new ArrayList<>();
-//        seats.addAll(lvwSeats.getSelectionModel().getSelectedItems());
-//        Seat seat = (Seat) lvwSeats.getSelectionModel().getSelectedItem();
-//        if (show != null && customer != null && seats.size() != 0 && date != null) {
-//            if (!date.isAfter(show.getStartDate().minusDays(1)) || !date.isBefore(show.getEndDate().plusDays(1))) {
-//                alertDate.show();
-//            } else if (show.isSeatAvailable(seat.getRow(), seat.getNumber(), date)) {
-//                Booking booking = Controller.createBookingWithSeats(show, customer, date, seats);
-//                showConfirmationWindow(booking);
-//            } else alertSeatNotFree.show();
-//        } else alertNormal.show();
-//    }
-
-
-    public void showConfirmationWindow(Booking booking) {
-        confirmation = new Alert(Alert.AlertType.INFORMATION);
-        confirmation.setTitle("Confirmation");
-        confirmation.setHeaderText(" Booking for " + booking.getShowName() + " confirmed.");
-        String seatsString = "";
-        for (Seat seat : booking.getSeats()) {
-            seatsString += "Row:  " + seat.getRow() + "   ";
-            seatsString += "Nr.:  " + seat.getNumber() + "   ";
-            seatsString += seat.getSeatType();
-            seatsString += "\n";
-        }
-        confirmation.setContentText("Your tickets for " + booking.getDate()
-                + " with seats: \n" + seatsString + "\n\n"
-                + "have been reserved for you, \n" + booking.getCustomer());
-        confirmation.showAndWait();
-    }
 
     public Stage getStage() {
         return stage;

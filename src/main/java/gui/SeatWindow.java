@@ -177,7 +177,6 @@ public class SeatWindow extends Stage {
         if (seats.size() > 0) {
             System.out.println("SEAT SIZE OVER 0");
             Booking booking = Controller.createBookingWithSeats(show, customer, date, seats);
-            theaterGUI.showConfirmationWindow(booking);
             theaterGUI.getDialog().hide();
             theaterGUI.updatePaneControls();
         }
