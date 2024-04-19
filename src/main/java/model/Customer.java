@@ -27,6 +27,18 @@ public class Customer {
         return name;
     }
 
+    public ArrayList<Seat> getBookedSeatsForShowOnDate(Show show, LocalDate date){
+        ArrayList<Seat> seats = new ArrayList<>();
+
+        for (Booking booking : bookings){
+            if (booking.getDate().equals(date) && show.equals(booking.getShow())){
+                seats.addAll(booking.getSeats());
+            }
+        }
+
+        return seats;
+    }
+
     @Override
     public String toString()
     {

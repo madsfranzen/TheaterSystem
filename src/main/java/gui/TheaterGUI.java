@@ -35,6 +35,7 @@ public class TheaterGUI extends Application {
     private ShowPane showPane;
     private CustomerPane customerPane;
     private SeatPane seatPane;
+    private StatisticsPane statisticsPane;
 
     private void initContent(GridPane mainPain) {
         mainPain.setPadding(new Insets(10));
@@ -46,10 +47,12 @@ public class TheaterGUI extends Application {
         showPane = new ShowPane(this);
         customerPane = new CustomerPane(this);
         seatPane = new SeatPane(this);
+        statisticsPane = new  StatisticsPane(this);
         // Add sub-panes
         mainPain.add(showPane,0,0);
         mainPain.add(customerPane,1,0);
         mainPain.add(seatPane,2,0);
+        mainPain.add(statisticsPane,3,0);
 
         // Upadate panes
         updatePaneControls();

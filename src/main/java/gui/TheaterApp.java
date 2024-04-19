@@ -11,7 +11,7 @@ public class TheaterApp {
 
     public static void main(String[] args) {
         initStorage();
-        testPrint();
+//        testPrint();
          Application.launch(TheaterGUI.class);
     }
 

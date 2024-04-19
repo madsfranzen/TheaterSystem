@@ -58,6 +58,40 @@ public class Show
         return new ArrayList<>(bookings);
     }
 
+    public int getCountOfBookingOnDate(LocalDate date){
+        int countOfBookingOnDate = 0;
+
+        for (Booking booking : bookings){
+            if (booking.getDate().equals(date)){
+                countOfBookingOnDate += booking.countOfSeats();
+            }
+        }
+        return countOfBookingOnDate;
+    }
+
+    /**
+     *
+     * @return date for wiht the higest count of sold seats.
+     * Note: If a show hasn't sold any seats then the function will return the starte date for the show.
+     */
+    public LocalDate getSuccessDate(){
+        LocalDate successDate = startDate;
+        int countOfSoldSeatsOnDate = 0;
+        int countOfSoldSeatsSuccesDate = 0;
+
+        for (LocalDate date = startDate.minusDays(1); date.isBefore(endDate.plusDays(1)); date.plusDays(1) ){
+            for (Booking booking : bookings){
+                if (booking.getDate().equals(date)){
+                    countOfSoldSeatsOnDate += booking.countOfSeats();
+                }
+            }
+            if (countOfSoldSeatsOnDate > countOfSoldSeatsSuccesDate){
+                successDate = date;
+            }
+        }
+        return successDate;
+    }
+
     @Override
     public String toString() {
         return String.format("%s ( From: %s To: %s )", name, startDate, endDate);

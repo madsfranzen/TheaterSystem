@@ -32,12 +32,31 @@ public class Booking
     public ArrayList<Seat> getSeats(){
         return new ArrayList<>(seats);
     }
+
     public void setCustomer(Customer customer)
     {
         this.customer = customer;
     }
 
+    public int totalPrice(){
+        int totalPrice = 0;
+
+        for (Seat seat : seats){
+            totalPrice += seat.getPrice();
+        }
+
+        return totalPrice;
+    }
+
     public LocalDate getDate() {
         return date;
+    }
+
+    public Show getShow() {
+        return show;
+    }
+
+    public int countOfSeats(){
+        return seats.size();
     }
 }

@@ -29,7 +29,7 @@ public class SeatPane extends GridPane {
         this.setHgap(10);
         this.setVgap(10);
         this.setGridLinesVisible(false);
-//        this.setBorder(TheaterGUI.getBorder());
+        this.setBorder(TheaterGUI.getBorder());
 
         // Add labels
         int _lblWidth = 50;
