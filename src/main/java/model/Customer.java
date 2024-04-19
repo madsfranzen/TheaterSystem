@@ -18,6 +18,11 @@ public class Customer {
         this.bookings = new ArrayList<>();
     }
 
+    public ArrayList<Booking> getBookings()
+    {
+        return new ArrayList<>(this.bookings);
+    }
+
     public void addBooking(Booking booking)
     {
         this.bookings.add(booking);
