@@ -32,4 +32,8 @@ public class Seat {
     public int getPrice() {
         return price;
     }
+
+    public SeatType getSeatType() {
+        return seatType;
+    }
 }
