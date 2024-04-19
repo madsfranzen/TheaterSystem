@@ -28,4 +28,13 @@ public class Customer {
     {
         return this.name + " (" + this.phoneNumber + ")";
     }
+    public ArrayList<Seat> BookedSeatforShowDay(Show show, LocalDate date){
+        ArrayList<Seat> seats = new ArrayList<>();
+        for (Booking b: bookings){
+            if (b.getDate().equals(date) && b.getShow().equals(show)){
+                seats.addAll(b.getSeats());
+            }
+        }
+        return seats;
+    }
 }

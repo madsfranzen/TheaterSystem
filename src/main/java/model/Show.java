@@ -50,4 +50,28 @@ public class Show
         }
         return avaliable;
     }
+    public int numberOfBookingPrDay(LocalDate date){
+        int amount = 0;
+        for (Booking b: bookings){
+            if (b.getDate().isEqual(date)){
+                for(Seat s: b.getSeats())
+                amount++;
+            }
+        }
+        return amount;
+    }
+    /**
+     * Note: Return can be null if no bookings have are created
+     */
+    public LocalDate succesDate(){
+        LocalDate succesDate = null;
+        LocalDate checkDate = startDate;
+        while(checkDate.isBefore(endDate.plusDays(1))){
+            if(numberOfBookingPrDay(checkDate)>= numberOfBookingPrDay(succesDate)){
+                succesDate = checkDate;
+                checkDate.plusDays(1);
+            }
+        }
+        return succesDate;
+    }
 }

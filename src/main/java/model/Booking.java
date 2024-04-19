@@ -49,4 +49,11 @@ public class Booking
     {
         this.customer = customer;
     }
+    public int totalPrice(){
+        int totalPrice = 0;
+        for(Seat s: seats){
+            totalPrice += s.getPrice();
+        }
+        return totalPrice;
+    }
 }

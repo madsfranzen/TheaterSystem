@@ -27,6 +27,10 @@ public class Seat {
         return seatType;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
     @Override
     public String toString() {
         String str = " Row: " + row + " Seat: " + number + " Price: " + price + " (" + seatType + ")";

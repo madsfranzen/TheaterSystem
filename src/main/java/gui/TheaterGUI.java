@@ -42,6 +42,7 @@ public class TheaterGUI extends Application {
     private final Button btnAddCustomer = new Button("Add Customer");
     private final Button btnAddBooking = new Button("Add Booking");
     private Alert confirmation;
+    private Alert noConfirmation;
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
@@ -81,6 +82,8 @@ public class TheaterGUI extends Application {
 
         showBotPane.add(txfName,1,0);
         showBotPane.add(txfStartDate,1,1);
+        txfStartDate.setPromptText("YYYY-MM-DD");
+        txfEndDate.setPromptText("YYYY-MM-DD");
         showBotPane.add(txfEndDate,1,2);
 
         showBotPane.add(btnAddShow,1,3);
@@ -148,6 +151,7 @@ public class TheaterGUI extends Application {
         lvwSeat.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         seatbotPane.add(txfSeatDate,1,0);
+        txfSeatDate.setPromptText("YYYY-MM-DD");
 
         seatbotPane.add(btnAddBooking,1,1);
         btnAddBooking.setOnAction(Event -> addBookingAction());
@@ -198,6 +202,10 @@ public class TheaterGUI extends Application {
                 lvwCustomer.getItems().setAll(Controller.getCustomers());
                 txfCustomerName.clear();
                 txfCustomerPhoneNumber.clear();
+
+                Show show = lvwShow.getSelectionModel().getSelectedItem();
+                LocalDate date = LocalDate.parse(txfSeatDate.getText().trim());
+                lvwSeat.getItems().setAll(getFreeSeats(show,date));
             }
             else {
                 //TODO
@@ -213,27 +221,28 @@ public class TheaterGUI extends Application {
     private void addBookingAction(){
         Show show = lvwShow.getSelectionModel().getSelectedItem();
         Customer customer = lvwCustomer.getSelectionModel().getSelectedItem();
-        LocalDate date = LocalDate.parse(txfSeatDate.getText().trim());
-        ArrayList<Seat> seats = new ArrayList<>();
 
-        for (Seat s: lvwSeat.getSelectionModel().getSelectedItems()){
-            seats.add(s);
-        }
-        Booking booking = Controller.createBooking(show,customer,date,seats);
-        if (booking != null){
-            //succes window
-            System.out.println("KORREKT");
-            confirmationWindow(booking);
+        if (!txfSeatDate.getText().equals("")) {
+            LocalDate date = LocalDate.parse(txfSeatDate.getText().trim());
+            ArrayList<Seat> seats = new ArrayList<>();
 
+            for (Seat s: lvwSeat.getSelectionModel().getSelectedItems()){
+                seats.add(s);
+            }
+            if (show != null && customer != null && date != null){
+                Booking booking = Controller.createBooking(show,customer,date,seats);
+                if (booking != null){
+                    //succes window
+                    confirmationWindow(booking);
+                    lvwSeat.getItems().setAll(getFreeSeats(show,date));
+                }
+            }
         }
         else{
-            System.out.println("FEJL");
-            //TODO
-            //FejlHåndtering
+            NoConfirmationWindow();
         }
-
     }
-    public void confirmationWindow(Booking booking){
+    private void confirmationWindow(Booking booking){
         confirmation = new Alert(Alert.AlertType.INFORMATION);
         confirmation.setTitle("Booking Confirmation");
         confirmation.setHeaderText("Booking confirmation for " + booking.getShow());
@@ -243,5 +252,56 @@ public class TheaterGUI extends Application {
         }
         confirmation.setContentText(str);
         confirmation.showAndWait();
+    }
+    private ArrayList<Seat> getFreeSeats(Show show, LocalDate date){
+        ArrayList<Seat> freeSeats = new ArrayList<>();
+
+        for(Seat s: Controller.getSeats()){
+            if (show.isSeatAvaliable(s.getRow(),s.getRow(),date)){
+                freeSeats.add(s);
+            }
+        }
+        return freeSeats;
+    }
+    private void NoConfirmationWindow(){
+        noConfirmation = new Alert(Alert.AlertType.INFORMATION);
+        noConfirmation.setTitle("Error Confirmation");
+        noConfirmation.setHeaderText("Error");
+        String str = "Please choose: ";
+        int count = 0;
+        if (lvwShow.getSelectionModel().getSelectedItem() == null){
+            str += "Show ";
+            count++;
+        }
+        if (lvwCustomer.getSelectionModel().getSelectedItem() == null){
+            if(count > 0 ){
+                str += ", customer";
+            }
+            else{
+                str += "Customer";
+            }
+            count++;
+        }
+        if (txfSeatDate.getText().trim().equals("")){
+            if(count > 0 ){
+                str += ", date";
+            }
+            else{
+                str += "Date";
+            }
+            count++;
+        }
+        if (lvwSeat.getSelectionModel().getSelectedItem() == null){
+            if(count > 0 ){
+                str += ", seat(s)";
+            }
+            else{
+                str += "Seat(s)";
+            }
+            count++;
+        }
+        noConfirmation.setContentText(str);
+        noConfirmation.showAndWait();
+
     }
 }
