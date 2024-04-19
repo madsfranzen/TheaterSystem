@@ -24,6 +24,9 @@ public class SeatPane extends GridPane {
     private final DatePicker dpcSeatDate = new DatePicker();
     private final ArrayList<Seat> selectedSeats = new ArrayList<>();
 
+    private Alert alertHard;
+    private Alert alertDate;
+
     public SeatPane(TheaterGUI theaterGUI) {
         this.theaterGUI = theaterGUI;
         this.setPadding(new Insets(10));
@@ -31,6 +34,15 @@ public class SeatPane extends GridPane {
         this.setVgap(10);
         this.setGridLinesVisible(false);
         this.setBorder(TheaterGUI.getBorder());
+
+        alertHard = new Alert(Alert.AlertType.ERROR);
+        alertHard.setTitle("Error");
+        alertHard.setHeaderText("Please select Show, Customer and Date before picking seats.");
+
+        alertDate = new Alert(Alert.AlertType.ERROR);
+        alertDate.setTitle("Error");
+        alertDate.setHeaderText("Please select a date between Shows start date and end date.");
+
 
         // Add labels
         int _lblWidth = 50;
@@ -176,20 +188,43 @@ public class SeatPane extends GridPane {
         if (validBooking) {
             Controller.createBookingWithSeats(selectedShow, selectedCustomer, selectedDate, selectedSeats);
 
-            StringBuilder sb = new StringBuilder();
-            sb.append(String.format("Customer: '%s' has now booked seat(s) for the show '%s'.\n\n", selectedCustomer.getName(), selectedShow.getName()));
-            sb.append(String.format("Seats below has been booked:\n"));
-            for (Seat s : selectedSeats) {
-                sb.append(String.format("%s\n", s.toString()));
-            }
-
-            theaterGUI.informationDialogue("Booking Confirmation", sb.toString());
+            showConfirmation(selectedCustomer, selectedShow);
 
             updateControls(true);
         }
     }
 
+    private void showConfirmation(Customer selectedCustomer, Show selectedShow) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Customer: '%s' has now booked seat(s) for the show '%s'.\n\n", selectedCustomer.getName(), selectedShow.getName()));
+        sb.append(String.format("Seats below has been booked:\n"));
+        for (Seat s : selectedSeats) {
+            sb.append(String.format("%s\n", s.toString()));
+        }
+        theaterGUI.informationDialogue("Booking Confirmation", sb.toString());
+    }
+
     public DatePicker getDpcSeatDate() {
         return dpcSeatDate;
+    }
+
+    public ListView<Seat> getLvwSeats() {
+        return lvwSeats;
+    }
+
+    public ArrayList<Seat> getSelectedSeats() {
+        return selectedSeats;
+    }
+
+    public Alert getAlertHard() {
+        return alertHard;
+    }
+
+    public Alert getAlertDate() {
+        return alertDate;
+    }
+
+    public TheaterGUI getTheaterGUI() {
+        return theaterGUI;
     }
 }
