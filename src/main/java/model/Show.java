@@ -30,6 +30,9 @@ public class Show
         return new ArrayList<>(this.bookings);
     }
 
+    /**
+    * Checks if a specific seat is available on a given date.
+    */
    public boolean isSeatAvailable(int row, int no, LocalDate date)
    {
        boolean available = true;
@@ -57,6 +60,40 @@ public class Show
     public LocalDate getEndDate()
     {
         return endDate;
+    }
+
+    /**
+    * Returns the count of booked seats on a given day
+    */
+    public int getBookedSeatOnDate(LocalDate date)
+    {
+        int count = 0;
+
+        for (Booking booking : this.getBookings())
+        {
+            if (booking.getDate().equals(date))
+            {
+                count += booking.getSeats().size();
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Return the date with the most booked seats
+     */
+    public LocalDate getSuccesDate()
+    {
+        LocalDate succesDate = this.getBookings().get(0).getDate();
+
+        for (Booking booking : this.getBookings())
+        {
+            if (this.getBookedSeatOnDate(booking.getDate()) > this.getBookedSeatOnDate(succesDate))
+            {
+                succesDate = booking.getDate();
+            }
+        }
+        return succesDate;
     }
 
     @Override

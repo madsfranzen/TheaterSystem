@@ -11,7 +11,7 @@ public class TheaterApp {
 
     public static void main(String[] args) {
         initStorage();
-        //testPrint();
+//        testPrint();
         Application.launch(TheaterGUI.class);
     }
 
@@ -32,6 +32,9 @@ public class TheaterApp {
         }
     }
 
+    /**
+     * Return the price for a seat given a row and no
+     */
     public static int priceCalculate(int row, int column) {
         int price = 0;
         int yellow = 500;
@@ -55,6 +58,9 @@ public class TheaterApp {
     }
 
 
+    /**
+     * Return the seat type given a row and no
+     */
     public static SeatType seatTypeCalculate(int row, int column) {
         SeatType seatType = SeatType.STANDARD;
 

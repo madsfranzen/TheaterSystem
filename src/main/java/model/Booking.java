@@ -44,14 +44,31 @@ public class Booking
         return date;
     }
 
+    public Show getShow()
+    {
+        return show;
+    }
+
+    /**
+    * Return the total price for a booking
+    */
+    public int totalPrice()
+    {
+        int totalPrice = 0;
+
+        for (Seat seat : this.seats)
+        {
+            totalPrice += seat.getPrice();
+        }
+        return totalPrice;
+    }
+
     @Override
     public String toString()
     {
-        return "Booking{" +
-                "seats=" + seats +
-                ", show=" + show +
-                ", customer=" + customer +
-                ", date=" + date +
-                '}';
+        return  "Customer: "+customer + "\n" +
+                "Date: "+ date + "\n" +
+                "Seats:\n"+ seats + "\n" +
+                "Total price: "+ totalPrice();
     }
 }

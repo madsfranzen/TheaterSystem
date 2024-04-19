@@ -25,9 +25,13 @@ public class Seat {
         return number;
     }
 
+    public int getPrice()
+    {
+        return price;
+    }
+
     @Override
     public String toString() {
-        String str = "Row: "+ row + " No.: " + number + " (DKK " + price + " " + seatType + ")\n";
-        return String.format("%-20s", str);
+       return "Row: "+ row + " No.: " + number + " (DKK " + price + " " + seatType + ")";
     }
 }

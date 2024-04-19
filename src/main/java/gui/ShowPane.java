@@ -57,17 +57,17 @@ public class ShowPane extends GridPane
 
     }
 
-    /*
+    /**
      * Returns the selected show
-     * */
+     */
     public Show getSelectedShow()
     {
         return lvwShows.getSelectionModel().getSelectedItem();
     }
 
-    /*
+    /**
     * Creates a show given the name, startDate and endDate
-    * */
+    */
     private void createShowAction() {
         String name = txfName.getText().trim();
         LocalDate startDate = dprStartDate.getValue();
@@ -104,9 +104,9 @@ public class ShowPane extends GridPane
         }
     }
 
-    /*
+    /**
     * Updates and selects new show in listview and resets name, startDate, endDate.
-    * */
+    */
     private void updateControls()
     {
         lvwShows.getItems().setAll(Controller.getShows());

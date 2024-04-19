@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import model.Booking;
 import model.Customer;
 import model.Seat;
 import model.Show;
@@ -58,6 +59,9 @@ public class SeatPane extends GridPane
 
     }
 
+    /**
+     * Creates a booking given the show, customer, seats and date
+     */
     private void createBookingAction()
     {
         Show show = this.showPane.getSelectedShow();
@@ -100,11 +104,10 @@ public class SeatPane extends GridPane
             {
                 Controller.createBookingWithSeats(this.showPane.getSelectedShow(), this.customerPane.getSelectedCustomer(), date, seats);
 
+                int index = show.getBookings().size() - 1;
+
                 information.setHeaderText("" + this.showPane.getSelectedShow());
-                information.setContentText(
-                        "Customer: " + this.customerPane.getSelectedCustomer() + "\n"
-                                + "Seats: \n" + seats
-                );
+                information.setContentText("" + show.getBookings().get(index));
                 information.show();
                 updateControls();
             }
@@ -116,9 +119,9 @@ public class SeatPane extends GridPane
         }
     }
 
-    /*
+    /**
      * Resets date
-     * */
+     */
     private void updateControls()
     {
         dprDate.getEditor().clear();

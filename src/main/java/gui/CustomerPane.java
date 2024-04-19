@@ -51,16 +51,16 @@ public class CustomerPane extends GridPane
 
     }
 
-    /*
+    /**
     * Returns the selected customer
-    * */
+    */
     public Customer getSelectedCustomer() {
         return lvwCustomers.getSelectionModel().getSelectedItem();
     }
 
-    /*
+    /**
      * Creates a customer given the name and mobile
-     * */
+     */
     private void createCustomerAction() {
         String name = txfName.getText().trim();
         String mobile = txfMobile.getText().trim();
@@ -88,9 +88,9 @@ public class CustomerPane extends GridPane
         }
     }
 
-    /*
+    /**
      * Updates and selects new customer in listview and resets name, mobile
-     * */
+     */
     private void updateControls()
     {
         lvwCustomers.getItems().setAll(Controller.getCustomers());

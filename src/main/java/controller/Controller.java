@@ -9,6 +9,9 @@ import java.util.ArrayList;
 public class Controller {
 
 
+    /**
+     * Create a booking given the show, customer, date and seats. If a booking can't be craeted then it returns null.
+     */
     public static Booking createBookingWithSeats(Show show, Customer customer, LocalDate date, ArrayList<Seat> seats)
     {
         Booking booking = null;
@@ -24,7 +27,7 @@ public class Controller {
         {
             booking = new Booking(date, customer, show);
             show.addBooking(booking);
-
+            customer.addBooking(booking);
             for (Seat seat : seats)
             {
                 booking.addSeat(seat);

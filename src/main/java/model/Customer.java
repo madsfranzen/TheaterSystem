@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Customer {
@@ -27,9 +28,26 @@ public class Customer {
         return new ArrayList<>(this.bookings);
     }
 
+    /**
+    * Return a list of all seats the customer have booked for a show on a given date.
+    */
+    public ArrayList<Seat> getBookedSeatsForShowOnDate(Show show, LocalDate date)
+    {
+        ArrayList<Seat> allSeats = new ArrayList<>();
+
+        for (Booking booking : this.getBookings())
+        {
+            if (booking.getShow().equals(show) && booking.getDate().equals(date))
+            {
+                allSeats.addAll(booking.getSeats());
+            }
+        }
+        return allSeats;
+    }
+
     @Override
     public String toString()
     {
-        return this.name;
+        return this.name + " (" + mobile + ")";
     }
 }
