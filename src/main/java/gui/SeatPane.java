@@ -58,7 +58,8 @@ public class SeatPane extends GridPane {
 
         // Add date pickers
         dpcSeatDate.setPrefWidth(150);
-        dpcSeatDate.setPromptText("dd/MM/yyyy");
+        dpcSeatDate.setPromptText("yyyy-MM-dd");
+        dpcSeatDate.setConverter(theaterGUI.datePickerFormat(dpcSeatDate));
         dpcSeatDate.valueProperty().addListener((ov, o , n) -> {
             updateControls(false);
         });
@@ -140,6 +141,11 @@ public class SeatPane extends GridPane {
             validBooking = false;
             theaterGUI.informationDialogue("Booking - Date", "Please select a customer.");
         }
+
+        if (selectedSeats.size() == 0){
+            validBooking = false;
+            theaterGUI.informationDialogue("Booking - Select booking", "Please ensure that there is selected at least one seat.");
+        }
         // Check if show is active on the selected booking date
         if (validBooking && !selectedShow.isShowActiveOnDate(selectedDate)){
             validBooking = false;
@@ -160,6 +166,8 @@ public class SeatPane extends GridPane {
                 theaterGUI.informationDialogue("Booking - Seats", "One or more of the selected seats is not free.");
             }
         }
+
+
 
         // Create booking
         if (validBooking){

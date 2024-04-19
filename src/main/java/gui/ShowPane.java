@@ -5,10 +5,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.util.StringConverter;
 import model.Show;
 import storage.Storage;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ShowPane extends GridPane {
 
@@ -69,11 +71,14 @@ public class ShowPane extends GridPane {
 
         // Add date pickers
         dpcStartDate.setPrefWidth(_txfWidth);
-        dpcStartDate.setPromptText("dd/MM/yyyy");
+        dpcStartDate.setPromptText("yyyy-MM-dd");
+        dpcStartDate.setConverter(theaterGUI.datePickerFormat(dpcStartDate));
+
         this.add(dpcStartDate,1,3);
 
         dpcEndDate.setPrefWidth(_txfWidth);
-        dpcEndDate.setPromptText("dd/MM/yyyy");
+        dpcEndDate.setPromptText("yyyy-MM-dd");
+        dpcEndDate.setConverter(theaterGUI.datePickerFormat(dpcEndDate));
         this.add(dpcEndDate,1,4);
 
         // Add buttons
@@ -99,17 +104,25 @@ public class ShowPane extends GridPane {
         String showName = txfShowName.getText().trim();
         LocalDate startDate = dpcStartDate.getValue();
         LocalDate endDate = dpcEndDate.getValue();
-        boolean validDates = true;
+        boolean validCreate = true;
 
-        if (!startDate.isBefore(endDate)){
-            validDates = false;
+        if (startDate == null || endDate == null){
+            validCreate = false;
         }
 
-        if (validDates){
+        if (validCreate && !startDate.isBefore(endDate)){
+            validCreate = false;
+        }
+
+        if (showName.equalsIgnoreCase("")){
+            validCreate = false;
+        }
+
+        if (validCreate){
             Controller.createShow(showName,startDate,endDate);
             theaterGUI.updatePaneControls();
         }else {
-            theaterGUI.informationDialogue("Create Show - Error In Date Information", "Please ensure that dates are valid.");
+            theaterGUI.informationDialogue("Create Show - Error In Customer Information", "Please ensure that dates and name information are valid.");
         }
     }
 

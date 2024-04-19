@@ -90,9 +90,17 @@ public class CustomerPane extends GridPane {
     private void actionCreateCustomer(){
         String customerName = txfCustomerName.getText().trim();
         String customerPhoneNumber = txfPhoneNumber.getText().trim();
+        boolean validCreate = true;
 
-        Controller.createCustomer(customerName,customerPhoneNumber);
-        theaterGUI.updatePaneControls();
+        if (customerName.equalsIgnoreCase("") && customerPhoneNumber.equalsIgnoreCase("")){
+            validCreate = false;
+            theaterGUI.informationDialogue("Create Customer - Missing information", "Please ensure that name and phone number has been set correctly.");
+        }
+
+        if (validCreate){
+            Controller.createCustomer(customerName,customerPhoneNumber);
+            theaterGUI.updatePaneControls();
+        }
     }
 
     public Customer getSelectedCustomer() {
