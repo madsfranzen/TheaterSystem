@@ -181,9 +181,9 @@ public class TheaterGUI extends Application {
     }
 
     public void btnHardWayAction() {
-        Show show = (Show) lvwShows.getSelectionModel().getSelectedItem();
-        Customer customer = (Customer) lvwCustomers.getSelectionModel().getSelectedItem();
-        LocalDate date = dpDateBooking.getValue();
+        Show show = showPane.getSelectedShow();
+        Customer customer = customerPane.getSelectedCustomer();
+        LocalDate date = seatPane.getDpcSeatDate().getValue();
         if (show != null && customer != null && date != null) {
             if (date.isAfter(show.getStartDate().minusDays(1)) && date.isBefore(show.getEndDate().plusDays(1))) {
                 SeatWindow.paintReservedSeats();

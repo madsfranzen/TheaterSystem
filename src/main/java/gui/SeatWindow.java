@@ -137,8 +137,8 @@ public class SeatWindow extends Stage {
     }
 
     public static void paintReservedSeats() {
-        Show show = (Show) theaterGUI.getLvwShows().getSelectionModel().getSelectedItem();
-        LocalDate date = theaterGUI.getDpDateBooking().getValue();
+        Show show = theaterGUI.getShowPane().getSelectedShow();
+        LocalDate date = theaterGUI.getSeatPane().getDpcSeatDate().getValue();
         paintSeats();
         for (int i = 0; i < chbSeatArray.size(); i++) {
             chbSeatArray.get(i).setDisable(false);
