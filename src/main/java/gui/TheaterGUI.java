@@ -10,10 +10,14 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import model.*;
 
 import java.time.LocalDate;
+import java.time.chrono.Chronology;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TheaterGUI extends Application {
 
@@ -31,29 +35,24 @@ public class TheaterGUI extends Application {
     private DatePicker dpDateBooking = new DatePicker();
     private Button btnCreateBooking = new Button("Create Booking");
     private Button btnHardWay = new Button("The HARD Way");
-    private TextField txfNumberOfSeat = new TextField();
-    private TextField txfTotalPrice = new TextField();
     private Button btnConfirm = new Button("Confirm Booking");
 
-    Alert alertHard;
-    Alert alertNormal;
-    Alert alertDate;
-    Alert alertSeatNotFree;
-    Alert confirmation;
+    private Alert alertHard;
+    private Alert alertNormal;
+    private Alert alertDate;
+    private Alert alertSeatNotFree;
+    private Alert confirmation;
 
-    Stage dialog = new Stage();
-    Stage stage;
-    GridPane seatPane = new GridPane();
-    Scene seatScene = new Scene(seatPane);
+    private Stage stage;
+    private Stage dialog = new Stage();
 
-    ArrayList<CheckBox> chbSeatArray = new ArrayList<>();
+    private ArrayList<CheckBox> chbSeatArray = new ArrayList<>();
 
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Theater Ticket System");
         GridPane pane = new GridPane();
-        this.initContent(pane, seatPane);
-        initSeatPaneContent(seatPane);
+        this.initContent(pane);
 
         alertHard = new Alert(Alert.AlertType.ERROR);
         alertHard.setTitle("Error");
@@ -74,10 +73,19 @@ public class TheaterGUI extends Application {
 
         Scene scene = new Scene(pane);
         stage.setScene(scene);
+
+        scene.setOnMouseClicked(event -> {
+            if (!lvwShows.equals(event.getSource())) {
+                lvwShows.getParent().requestFocus();
+            }
+        });
+
+        SeatWindow seatWindow = new SeatWindow(this);
+
         stage.show();
     }
 
-    private void initContent(GridPane pane, GridPane seatPane) {
+    private void initContent(GridPane pane) {
         pane.setPadding(new Insets(20));
         pane.setHgap(10);
         pane.setVgap(10);
@@ -135,109 +143,6 @@ public class TheaterGUI extends Application {
         updateContent();
     }
 
-    public void initSeatPaneContent(GridPane seatPane) {
-        seatPane.setPadding(new Insets(20));
-        seatPane.setHgap(10);
-        seatPane.setVgap(10);
-        seatPane.setGridLinesVisible(false);
-        dialog.setScene(seatScene);
-        dialog.initOwner(stage);
-        dialog.setTitle("The Hard Way");
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        HBox topBox = new HBox();
-        Label lblHardWay = new Label("---  STAGE  ---      ");
-        lblHardWay.setFont(new Font(20));
-        topBox.getChildren().setAll(lblHardWay);
-        topBox.setAlignment(Pos.CENTER);
-        seatPane.add(topBox, 0, 0, 20, 1);
-
-        // init seats
-        int col = 1;
-        int row = 1;
-        for (int i = 0; i < Controller.getSeats().size(); i++) {
-            if (i % 20 == 0) {
-                row++;
-                col = 0;
-            }
-            CheckBox chbSeat = new CheckBox();
-            chbSeat.setFocusTraversable(false);
-            chbSeat.setOnAction(event -> updateTotalPrice());
-            seatPane.add(chbSeat, col, row);
-            chbSeatArray.add(chbSeat);
-            col++;
-        }
-
-        paintSeats();
-
-        CheckBox chbBluePrice = new CheckBox("$400");
-        chbBluePrice.setStyle("-fx-body-color: blue; -fx-inner-border: blue;");
-        chbBluePrice.setMouseTransparent(true);
-        chbBluePrice.setFocusTraversable(false);
-        CheckBox chbGreenPrice = new CheckBox("$450");
-        chbGreenPrice.setStyle("-fx-body-color: green; -fx-inner-border: green;");
-        chbGreenPrice.setMouseTransparent(true);
-        chbGreenPrice.setFocusTraversable(false);
-        CheckBox chbYellowPrice = new CheckBox("$500");
-        chbYellowPrice.setStyle("-fx-body-color: yellow; -fx-inner-border: yellow;");
-        chbYellowPrice.setMouseTransparent(true);
-        chbYellowPrice.setFocusTraversable(false);
-        CheckBox chbExtraSpace = new CheckBox("Extra Space");
-        chbExtraSpace.setStyle("-fx-body-color: lightblue; -fx-inner-border: blue;");
-        chbExtraSpace.setMouseTransparent(true);
-        chbExtraSpace.setFocusTraversable(false);
-        CheckBox chbWheelchair = new CheckBox("Wheelchair");
-        chbWheelchair.setStyle("-fx-body-color: lightgreen; -fx-inner-border: green;");
-        chbWheelchair.setMouseTransparent(true);
-        chbWheelchair.setFocusTraversable(false);
-
-        HBox colourBox = new HBox();
-        HBox disabilityBox = new HBox();
-        colourBox.getChildren().setAll(chbBluePrice, chbGreenPrice, chbYellowPrice);
-        disabilityBox.getChildren().setAll(chbExtraSpace, chbWheelchair);
-        colourBox.setAlignment(Pos.CENTER);
-        colourBox.setSpacing(20);
-        disabilityBox.setSpacing(20);
-        disabilityBox.setAlignment(Pos.CENTER);
-        seatPane.add(colourBox, 0, 17, 20, 1);
-        seatPane.add(disabilityBox, 0, 18, 20, 1);
-
-        HBox totalPriceBox = new HBox();
-        Label lblNumberOfSeat = new Label("Number of Seats:");
-        Label lblTotalPrice = new Label("Total Price:");
-        txfNumberOfSeat.setMaxWidth(50);
-        txfNumberOfSeat.setEditable(false);
-        txfNumberOfSeat.setFocusTraversable(false);
-        txfNumberOfSeat.setMouseTransparent(true);
-        txfTotalPrice.setMaxWidth(100);
-        txfTotalPrice.setEditable(false);
-        txfTotalPrice.setFocusTraversable(false);
-        txfTotalPrice.setMouseTransparent(true);
-        totalPriceBox.getChildren().setAll(lblNumberOfSeat, txfNumberOfSeat, lblTotalPrice, txfTotalPrice, btnConfirm);
-        seatPane.add(totalPriceBox, 0, 20, 20, 1);
-        totalPriceBox.setAlignment(Pos.CENTER);
-        totalPriceBox.setSpacing(15);
-
-        btnConfirm.setOnAction(event -> hardWayConfirmBooking());
-    }
-
-    private void paintSeats() {
-        for (int i = 0; i < chbSeatArray.size(); i++) {
-            CheckBox chb = chbSeatArray.get(i);
-            Seat seat = Controller.getSeats().get(i);
-            chb.setSelected(false);
-            switch (seat.getPrice()) {
-                case 500 -> chb.setStyle("-fx-body-color: yellow; -fx-inner-border: yellow;");
-                case 450 -> chb.setStyle("-fx-body-color: green; -fx-inner-border: green;");
-                case 400 -> chb.setStyle("-fx-body-color: blue; -fx-inner-border: blue;");
-            }
-            if (seat.getSeatType() == SeatType.EXTRASPACE) {
-                chb.setStyle("-fx-body-color: lightblue; -fx-inner-border: blue;");
-            }
-            if (seat.getSeatType() == SeatType.WHEELCHAIR) {
-                chb.setStyle("-fx-body-color: lightgreen; -fx-inner-border: green;");
-            }
-        }
-    }
 
     public void updateContent() {
         lvwShows.getItems().setAll(Controller.getShows());
@@ -249,19 +154,6 @@ public class TheaterGUI extends Application {
         dpStartDate.setValue(null);
         dpEndDate.setValue(null);
         dpDateBooking.setValue(null);
-    }
-
-    public void updateTotalPrice() {
-        int totalPrice = 0;
-        int numberOfSeats = 0;
-        for (int i = 0; i < chbSeatArray.size(); i++) {
-            if (chbSeatArray.get(i).isSelected()) {
-                totalPrice += Controller.getSeats().get(i).getPrice();
-                numberOfSeats++;
-            }
-        }
-        txfNumberOfSeat.setText(String.valueOf(numberOfSeats));
-        txfTotalPrice.setText("$" + String.valueOf(totalPrice));
     }
 
     public void btnCreateShowAction() {
@@ -291,7 +183,7 @@ public class TheaterGUI extends Application {
         LocalDate date = dpDateBooking.getValue();
         if (show != null && customer != null && date != null) {
             if (date.isAfter(show.getStartDate().minusDays(1)) && date.isBefore(show.getEndDate().plusDays(1))) {
-                paintReservedSeats();
+                SeatWindow.paintReservedSeats();
                 dialog.showAndWait();
             } else {
                 alertDate.show();
@@ -333,21 +225,6 @@ public class TheaterGUI extends Application {
         }
     }
 
-    public void paintReservedSeats() {
-        Show show = (Show) lvwShows.getSelectionModel().getSelectedItem();
-        LocalDate date = dpDateBooking.getValue();
-        paintSeats();
-        for (int i = 0; i < chbSeatArray.size(); i++) {
-            chbSeatArray.get(i).setDisable(false);
-            Seat seat = Controller.getSeats().get(i);
-            if (!show.isSeatFree(seat.getRow(), seat.getNumber(), date)) {
-                chbSeatArray.get(i).setDisable(true);
-                chbSeatArray.get(i).setSelected(false);
-                chbSeatArray.get(i).setStyle("-fx-body-color: white; -fx-inner-border: white;");
-            }
-        }
-    }
-
     public void showConfirmationWindow(Booking booking) {
         confirmation = new Alert(Alert.AlertType.INFORMATION);
         confirmation.setTitle("Confirmation");
@@ -364,4 +241,29 @@ public class TheaterGUI extends Application {
                 + "have been reserved for you, \n" + booking.getCustomer());
         confirmation.showAndWait();
     }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public Stage getDialog() {
+        return dialog;
+    }
+
+    public ListView getLvwShows() {
+        return lvwShows;
+    }
+
+    public DatePicker getDpDateBooking() {
+        return dpDateBooking;
+    }
+
+    public Button getBtnConfirm() {
+        return btnConfirm;
+    }
+
+    public ArrayList<CheckBox> getChbSeatArray() {
+        return chbSeatArray;
+    }
+
 }
