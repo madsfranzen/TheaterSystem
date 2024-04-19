@@ -70,22 +70,18 @@ public class Show {
      * @return date for wiht the higest count of sold seats.
      * Note: If a show hasn't sold any seats then the function will return the starte date for the show.
      */
-    public LocalDate getSuccessDate() {
-        LocalDate successDate = startDate;
-        int countOfSoldSeatsOnDate = 0;
-        int countOfSoldSeatsSuccesDate = 0;
+    public LocalDate getSuccesDate()
+    {
+        LocalDate succesDate = this.getBookings().get(0).getDate();
 
-        for (LocalDate date = startDate.minusDays(1); date.isBefore(endDate.plusDays(1)); date.plusDays(1)) {
-            for (Booking booking : bookings) {
-                if (booking.getDate().equals(date)) {
-                    countOfSoldSeatsOnDate += booking.countOfSeats();
-                }
-            }
-            if (countOfSoldSeatsOnDate > countOfSoldSeatsSuccesDate) {
-                successDate = date;
+        for (Booking booking : this.getBookings())
+        {
+            if (this.getCountOfBookingOnDate(booking.getDate()) > this.getCountOfBookingOnDate(succesDate))
+            {
+                succesDate = booking.getDate();
             }
         }
-        return successDate;
+        return succesDate;
     }
 
     @Override
