@@ -36,10 +36,12 @@ public class TheaterGUI extends Application {
         GridPane paneShow = new ShowPane();
         GridPane paneCustomer = new CustomerPane();
         GridPane paneSeat = new SeatPane((ShowPane) paneShow, (CustomerPane) paneCustomer);
+        GridPane paneStatistics = new StatisticsPane((ShowPane) paneShow, (CustomerPane) paneCustomer);
 
         pane.add(paneShow,0,0);
         pane.add(paneCustomer,1,0);
         pane.add(paneSeat,2,0);
+        pane.add(paneStatistics,3,0);
     }
 
 }

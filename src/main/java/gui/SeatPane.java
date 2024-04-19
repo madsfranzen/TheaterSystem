@@ -72,30 +72,24 @@ public class SeatPane extends GridPane
 
         if (show == null )
         {
-            alert.setContentText("Please select a show");
-            alert.show();
+            showAlert(this.alert, "Please select a show", "No show selected");
         } else if (customer == null)
         {
-            alert.setContentText("Please select a customer");
-            alert.show();
+            showAlert(this.alert, "Please select a customer", "No customer selected");
         } else if (date == null)
         {
-            alert.setContentText("Please select a date");
-            alert.show();
+            showAlert(this.alert, "Please select a date", "No date selected");
         }
         else if (seats.isEmpty())
         {
-            alert.setContentText("Please select seats");
-            alert.show();
+            showAlert(this.alert, "Please select seat(s)", "No seat(s) selected");
         }
         else if (date.isBefore(this.showPane.getSelectedShow().getStartDate())) {
-            alert.setContentText("Booking date cannot be before shows start date.");
-            alert.show();
+            showAlert(this.alert, "Booking date cannot be before shows start date.", "Invalid date");
         }
         else if (date.isAfter(this.showPane.getSelectedShow().getEndDate()))
         {
-            alert.setContentText("Booking date cannot be after shows end date.");
-            alert.show();
+            showAlert(this.alert, "Booking date cannot be after shows end date.", "Invalid date");
         } else if (Controller.createBookingWithSeats(this.showPane.getSelectedShow(), this.customerPane.getSelectedCustomer(), date, seats) != null)
         {
             Optional<ButtonType> result = confirmation.showAndWait();
@@ -104,18 +98,24 @@ public class SeatPane extends GridPane
             {
                 Controller.createBookingWithSeats(this.showPane.getSelectedShow(), this.customerPane.getSelectedCustomer(), date, seats);
 
-                int index = show.getBookings().size() - 1;
+                StringBuilder sb = new StringBuilder();
+                sb.append(String.format("Show: " + show + "\n") );
+                sb.append(String.format("Customer: " + customer + "\n"));
+                sb.append(String.format("Date: " + date + "\n\n"));
+                sb.append(String.format("Seats below have been booked: \n"));
 
-                information.setHeaderText("" + this.showPane.getSelectedShow());
-                information.setContentText("" + show.getBookings().get(index));
-                information.show();
+                for (Seat seat : seats)
+                {
+                    sb.append(String.format("%s\n", seat));
+                }
+
+                showAlert(information, sb.toString(), "Booking confirmation");
                 updateControls();
             }
         }
         else
         {
-            alert.setContentText("Seats are taken");
-            alert.show();
+            showAlert(this.alert, "Atleast one of the seats are taken.", "Seats taken");
         }
     }
 
@@ -126,5 +126,12 @@ public class SeatPane extends GridPane
     {
         dprDate.getEditor().clear();
         dprDate.setValue(null);
+    }
+
+    private void showAlert(Alert alert, String contextText, String headerText)
+    {
+        alert.setHeaderText(headerText);
+        alert.setContentText(contextText);
+        alert.show();
     }
 }

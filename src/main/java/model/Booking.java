@@ -68,7 +68,7 @@ public class Booking
     {
         return  "Customer: "+customer + "\n" +
                 "Date: "+ date + "\n" +
-                "Seats:\n"+ seats + "\n" +
+                "Seats:\n"+ seats.toString() + "\n" +
                 "Total price: "+ totalPrice();
     }
 }
