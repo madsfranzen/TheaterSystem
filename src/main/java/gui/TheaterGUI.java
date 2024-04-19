@@ -30,6 +30,31 @@ public class TheaterGUI extends Application {
 
     // ------------------------------------------------------------------------- //
 
+    private ShowPane showPane;
+    private CustomerPane customerPane;
+    private SeatPane seatPane;
+    private StatisticsPane statisticsPane;
+
+    public ShowPane getShowPane()
+    {
+        return showPane;
+    }
+
+    public CustomerPane getCustomerPane()
+    {
+        return customerPane;
+    }
+
+    public SeatPane getSeatPane()
+    {
+        return seatPane;
+    }
+
+    public StatisticsPane getStatisticsPane()
+    {
+        return statisticsPane;
+    }
+
     private void initContent(GridPane pane) {
 
         pane.setGridLinesVisible(false);
@@ -37,14 +62,17 @@ public class TheaterGUI extends Application {
         GridPane paneShow = new ShowPane();
         GridPane paneCustomer = new CustomerPane();
         GridPane paneSeat = new SeatPane((ShowPane) paneShow, (CustomerPane) paneCustomer);
-        GridPane paneStatistics = new StatisticsPane((ShowPane) paneShow, (CustomerPane) paneCustomer);
+
+
+        statisticsPane = new StatisticsPane(this);
+
 
         pane.add(paneShow,0,0);
         pane.add(paneCustomer,1,0);
         pane.add(paneSeat,2,0);
-        pane.add(paneStatistics,0,1, 3,1);
+        pane.add(statisticsPane,0,1, 3,1);
 
-        paneStatistics.setAlignment(Pos.CENTER);
+        statisticsPane.setAlignment(Pos.CENTER);
     }
 
 }

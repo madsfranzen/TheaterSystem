@@ -18,18 +18,17 @@ import java.util.Locale;
 public class StatisticsPane extends GridPane
 {
 
-    private final ShowPane showPane;
-    private final CustomerPane customerPane;
     private final ListView<Booking> lvwBookings = new ListView<>();
     private final TextArea txaSeats = new TextArea();
     private final DatePicker dprDate = new DatePicker();
     private final TextField txfBookedSeatOnDate = new TextField();
     private final TextField txfSuccesDate = new TextField();
     private final Alert alert = new Alert(Alert.AlertType.ERROR);
+    private final TheaterGUI theaterGUI;
 
 
 
-    public StatisticsPane(ShowPane showPane, CustomerPane customerPane) {
+    public StatisticsPane(TheaterGUI theaterGUI) {
 
 
         this.setPadding(new Insets(20));
@@ -37,8 +36,7 @@ public class StatisticsPane extends GridPane
         this.setVgap(10);
         this.setGridLinesVisible(false);
 
-        this.showPane = showPane;
-        this.customerPane = customerPane;
+        this.theaterGUI = theaterGUI;
 
 
         Label lblShows = new Label("Customer Bookings");
@@ -85,8 +83,8 @@ public class StatisticsPane extends GridPane
 
     private void getBookingsAction()
     {
-        Show show = showPane.getSelectedShow();
-        Customer customer = customerPane.getSelectedCustomer();
+        Show show = theaterGUI.getShowPane().getSelectedShow();
+        Customer customer = theaterGUI.getCustomerPane().getSelectedCustomer();
 
         if (customer == null)
         {
@@ -103,7 +101,7 @@ public class StatisticsPane extends GridPane
 
     private void bookedSeatsOnDayAction()
     {
-        Show show = showPane.getSelectedShow();
+        Show show = theaterGUI.getShowPane().getSelectedShow();
         LocalDate date = dprDate.getValue();
 
         if (show == null)
@@ -128,7 +126,7 @@ public class StatisticsPane extends GridPane
 
     private void succesDateAction()
     {
-        Show show = showPane.getSelectedShow();
+        Show show = theaterGUI.getShowPane().getSelectedShow();
 
         if (show == null)
         {
