@@ -57,6 +57,7 @@ public class StatisticsPane extends GridPane {
         this.add(dprDate, 0, 4);
         this.add(txfBookedSeatOnDate, 0, 5);
         txfBookedSeatOnDate.setEditable(false);
+        dprDate.setConverter(theaterGUI.datePickerFormat(dprDate));
 
         Label lblSuccesDate = new Label("Succes date:");
         this.add(lblSuccesDate, 1, 3);
