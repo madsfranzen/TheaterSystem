@@ -3,6 +3,7 @@ package gui;
 import controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -66,6 +67,7 @@ public class TheaterGUI extends Application {
         stage.setTitle("Theater Booking System");
         GridPane pane = new GridPane();
         this.initContent(pane);
+//        pane.setAlignment(Pos.CENTER);
 
         alertHard = new Alert(Alert.AlertType.ERROR);
         alertHard.setTitle("Error");
@@ -110,11 +112,12 @@ public class TheaterGUI extends Application {
         customerPane = new CustomerPane(this);
         seatPane = new SeatPane(this);
         statisticsPane = new StatisticsPane(this);
+        statisticsPane.setAlignment(Pos.CENTER);
         // Add sub-panes
         mainPain.add(showPane, 0, 0);
         mainPain.add(customerPane, 1, 0);
         mainPain.add(seatPane, 2, 0);
-        mainPain.add(statisticsPane, 3, 0);
+        mainPain.add(statisticsPane, 0, 1,3,1);
 
         // Upadate panes
         updatePaneControls();
@@ -139,7 +142,7 @@ public class TheaterGUI extends Application {
                 Color.BLACK,
                 BorderStrokeStyle.SOLID,
                 null,                                    // rounded corners
-                new BorderWidths(0, 1, 0, 0)            // top, right, bottom, left
+                new BorderWidths(0, 1, 1, 0)            // top, right, bottom, left
         );
 
         Border border = new Border(borderStroke);
