@@ -21,7 +21,7 @@ public class ShowPane extends GridPane {
     private final TheaterGUI theaterGUI;
     private Show selectedShow;
 
-    public ShowPane(TheaterGUI theaterGUI){
+    public ShowPane(TheaterGUI theaterGUI) {
         this.theaterGUI = theaterGUI;
         this.setPadding(new Insets(10));
         this.setHgap(10);
@@ -34,19 +34,19 @@ public class ShowPane extends GridPane {
 
         Label lblShow = new Label("Shows");
         lblShow.setPrefWidth(_lblWidth);
-        this.add(lblShow,0,0);
+        this.add(lblShow, 0, 0);
 
         Label lblShowName = new Label("Name:");
         lblShowName.setPrefWidth(_lblWidth);
-        this.add(lblShowName,0,2);
+        this.add(lblShowName, 0, 2);
 
         Label lblShowStartDate = new Label("Start Date:");
         lblShowStartDate.setPrefWidth(_lblWidth);
-        this.add(lblShowStartDate,0,3);
+        this.add(lblShowStartDate, 0, 3);
 
         Label lblShowEndDate = new Label("End Date:");
         lblShowEndDate.setPrefWidth(_lblWidth);
-        this.add(lblShowEndDate,0,4);
+        this.add(lblShowEndDate, 0, 4);
 
         // Add list views
         int _lvwWidht = 350;
@@ -55,7 +55,7 @@ public class ShowPane extends GridPane {
         lvwShows.setPrefWidth(_lvwWidht);
         lvwShows.setPrefHeight(_lvwHeight);
         lvwShows.setEditable(false);
-        this.add(lvwShows,0,1,2,1);
+        this.add(lvwShows, 0, 1, 2, 1);
         ChangeListener<Show> listener = (ov, o, n) -> {
             selectedShow = lvwShows.getSelectionModel().getSelectedItem();
             theaterGUI.getSeatPane().updateControls(true);
@@ -67,30 +67,30 @@ public class ShowPane extends GridPane {
 
         txfShowName.setPrefWidth(_txfWidth);
         txfShowName.setPromptText("Titel Of The Show");
-        this.add(txfShowName,1,2);
+        this.add(txfShowName, 1, 2);
 
         // Add date pickers
         dpcStartDate.setPrefWidth(_txfWidth);
         dpcStartDate.setPromptText("yyyy-MM-dd");
         dpcStartDate.setConverter(theaterGUI.datePickerFormat(dpcStartDate));
 
-        this.add(dpcStartDate,1,3);
+        this.add(dpcStartDate, 1, 3);
 
         dpcEndDate.setPrefWidth(_txfWidth);
         dpcEndDate.setPromptText("yyyy-MM-dd");
         dpcEndDate.setConverter(theaterGUI.datePickerFormat(dpcEndDate));
-        this.add(dpcEndDate,1,4);
+        this.add(dpcEndDate, 1, 4);
 
         // Add buttons
         Button btnCreateShow = new Button("Create Show");
-        this.add(btnCreateShow,1,5);
+        this.add(btnCreateShow, 1, 5);
 
         // Add button action
         btnCreateShow.setOnAction(actionEvent -> actionCreateShow());
 
     }
 
-    public void updateControls(){
+    public void updateControls() {
         // Update list views
         lvwShows.getItems().setAll(Storage.getShows());
 
@@ -100,33 +100,37 @@ public class ShowPane extends GridPane {
         dpcEndDate.getEditor().clear();
     }
 
-    private void actionCreateShow(){
+    private void actionCreateShow() {
         String showName = txfShowName.getText().trim();
         LocalDate startDate = dpcStartDate.getValue();
         LocalDate endDate = dpcEndDate.getValue();
         boolean validCreate = true;
 
-        if (startDate == null || endDate == null){
+        if (startDate == null || endDate == null) {
             validCreate = false;
         }
 
-        if (validCreate && !startDate.isBefore(endDate)){
+        if (validCreate && !startDate.isBefore(endDate)) {
             validCreate = false;
         }
 
-        if (showName.equalsIgnoreCase("")){
+        if (showName.equalsIgnoreCase("")) {
             validCreate = false;
         }
 
-        if (validCreate){
-            Controller.createShow(showName,startDate,endDate);
+        if (validCreate) {
+            Controller.createShow(showName, startDate, endDate);
             theaterGUI.updatePaneControls();
-        }else {
+        } else {
             theaterGUI.informationDialogue("Create Show - Error In Customer Information", "Please ensure that dates and name information are valid.");
         }
     }
 
     public Show getSelectedShow() {
         return selectedShow;
+    }
+
+    public ListView<Show> getLvwShows() {
+        return lvwShows;
     }
 }

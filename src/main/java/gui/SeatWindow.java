@@ -10,9 +10,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
-import model.Seat;
-import model.SeatType;
-import model.Show;
+import model.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,22 +20,22 @@ public class SeatWindow extends Stage {
     public static TextField txfNumberOfSeat = new TextField();
     public static TextField txfTotalPrice = new TextField();
     private static TheaterGUI theaterGUI;
-    private static ArrayList<CheckBox> chbSeatArray;
+    private static ArrayList<CheckBox> chbSeatArray = new ArrayList<>();
 
-    GridPane seatPane = new GridPane();
-    Scene seatScene = new Scene(seatPane);
+    GridPane seatSelectionPane = new GridPane();
+    Scene seatScene = new Scene(seatSelectionPane);
+    private Button btnConfirm = new Button("Confirm Booking");
 
     public SeatWindow(TheaterGUI theaterGUI) {
-        chbSeatArray = theaterGUI.getChbSeatArray();
         this.theaterGUI = theaterGUI;
         initSeatPaneContent();
     }
 
     public void initSeatPaneContent() {
-        seatPane.setPadding(new Insets(20));
-        seatPane.setHgap(10);
-        seatPane.setVgap(10);
-        seatPane.setGridLinesVisible(false);
+        seatSelectionPane.setPadding(new Insets(20));
+        seatSelectionPane.setHgap(10);
+        seatSelectionPane.setVgap(10);
+        seatSelectionPane.setGridLinesVisible(false);
         theaterGUI.getDialog().setScene(seatScene);
         theaterGUI.getDialog().initOwner(theaterGUI.getStage());
         theaterGUI.getDialog().setTitle("The Hard Way");
@@ -47,7 +45,7 @@ public class SeatWindow extends Stage {
         lblHardWay.setFont(new Font(20));
         topBox.getChildren().setAll(lblHardWay);
         topBox.setAlignment(Pos.CENTER);
-        seatPane.add(topBox, 0, 0, 20, 1);
+        seatSelectionPane.add(topBox, 0, 0, 20, 1);
 
         // init seats
         int col = 1;
@@ -60,7 +58,7 @@ public class SeatWindow extends Stage {
             CheckBox chbSeat = new CheckBox();
             chbSeat.setFocusTraversable(false);
             chbSeat.setOnAction(event -> updateTotalPrice());
-            seatPane.add(chbSeat, col, row);
+            seatSelectionPane.add(chbSeat, col, row);
             chbSeatArray.add(chbSeat);
             col++;
         }
@@ -95,8 +93,8 @@ public class SeatWindow extends Stage {
         colourBox.setSpacing(20);
         disabilityBox.setSpacing(20);
         disabilityBox.setAlignment(Pos.CENTER);
-        seatPane.add(colourBox, 0, 17, 20, 1);
-        seatPane.add(disabilityBox, 0, 18, 20, 1);
+        seatSelectionPane.add(colourBox, 0, 17, 20, 1);
+        seatSelectionPane.add(disabilityBox, 0, 18, 20, 1);
         HBox totalPriceBox = new HBox();
         Label lblNumberOfSeat = new Label("Number of Seats:");
         Label lblTotalPrice = new Label("Total Price:");
@@ -108,12 +106,12 @@ public class SeatWindow extends Stage {
         txfTotalPrice.setEditable(false);
         txfTotalPrice.setFocusTraversable(false);
         txfTotalPrice.setMouseTransparent(true);
-        totalPriceBox.getChildren().setAll(lblNumberOfSeat, txfNumberOfSeat, lblTotalPrice, txfTotalPrice, theaterGUI.getBtnConfirm());
-        seatPane.add(totalPriceBox, 0, 20, 20, 1);
+        totalPriceBox.getChildren().setAll(lblNumberOfSeat, txfNumberOfSeat, lblTotalPrice, txfTotalPrice, btnConfirm);
+        seatSelectionPane.add(totalPriceBox, 0, 20, 20, 1);
         totalPriceBox.setAlignment(Pos.CENTER);
         totalPriceBox.setSpacing(15);
 
-        theaterGUI.getBtnConfirm().setOnAction(event -> theaterGUI.hardWayConfirmBooking());
+        btnConfirm.setOnAction(event -> hardWayConfirmBooking());
     }
 
 
@@ -162,5 +160,26 @@ public class SeatWindow extends Stage {
         }
         txfNumberOfSeat.setText(String.valueOf(numberOfSeats));
         txfTotalPrice.setText("$" + String.valueOf(totalPrice));
+    }
+
+    public void hardWayConfirmBooking() {
+        System.out.println("CONFIRMED PRESSED");
+        Show show = theaterGUI.getShowPane().getSelectedShow();
+        Customer customer = theaterGUI.getCustomerPane().getSelectedCustomer();
+        LocalDate date = theaterGUI.getSeatPane().getDpcSeatDate().getValue();
+        ArrayList<Seat> seats = new ArrayList<>();
+        for (int i = 0; i < chbSeatArray.size(); i++) {
+            System.out.println("ADDING SEAT");
+            if (chbSeatArray.get(i).isSelected()) {
+                seats.add(Controller.getSeats().get(i));
+            }
+        }
+        if (seats.size() > 0) {
+            System.out.println("SEAT SIZE OVER 0");
+            Booking booking = Controller.createBookingWithSeats(show, customer, date, seats);
+            theaterGUI.showConfirmationWindow(booking);
+            theaterGUI.getDialog().hide();
+            theaterGUI.updatePaneControls();
+        }
     }
 }

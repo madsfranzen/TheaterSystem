@@ -192,4 +192,13 @@ public class SeatPane extends GridPane {
     public DatePicker getDpcSeatDate() {
         return dpcSeatDate;
     }
+
+    public ListView<Seat> getLvwSeats() {
+        return lvwSeats;
+    }
+
+    public ArrayList<Seat> getSelectedSeats() {
+        return selectedSeats;
+    }
+
 }
