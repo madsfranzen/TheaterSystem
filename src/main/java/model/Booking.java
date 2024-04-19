@@ -49,6 +49,11 @@ public class Booking
         return show;
     }
 
+    public Customer getCustomer()
+    {
+        return customer;
+    }
+
     /**
     * Return the total price for a booking
     */
@@ -66,9 +71,6 @@ public class Booking
     @Override
     public String toString()
     {
-        return  "Customer: "+customer + "\n" +
-                "Date: "+ date + "\n" +
-                "Seats:\n"+ seats.toString() + "\n" +
-                "Total price: "+ totalPrice();
+        return "Show: " + show + " Date: "+ date;
     }
 }

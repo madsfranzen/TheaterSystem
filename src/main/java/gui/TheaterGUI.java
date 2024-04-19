@@ -2,6 +2,7 @@ package gui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -31,7 +32,7 @@ public class TheaterGUI extends Application {
 
     private void initContent(GridPane pane) {
 
-        pane.setGridLinesVisible(true);
+        pane.setGridLinesVisible(false);
 
         GridPane paneShow = new ShowPane();
         GridPane paneCustomer = new CustomerPane();
@@ -41,7 +42,9 @@ public class TheaterGUI extends Application {
         pane.add(paneShow,0,0);
         pane.add(paneCustomer,1,0);
         pane.add(paneSeat,2,0);
-        pane.add(paneStatistics,3,0);
+        pane.add(paneStatistics,0,1, 3,1);
+
+        paneStatistics.setAlignment(Pos.CENTER);
     }
 
 }
