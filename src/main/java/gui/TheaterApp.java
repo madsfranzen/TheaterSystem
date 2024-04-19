@@ -12,7 +12,7 @@ public class TheaterApp {
     public static void main(String[] args) {
         initStorage();
 //        testPrint();
-         Application.launch(TheaterGUI.class);
+        Application.launch(TheaterGUI.class);
     }
 
     public static void initStorage() {
@@ -57,12 +57,10 @@ public class TheaterApp {
 
     public static SeatType seatTypeCalculate(int row, int column) {
         SeatType seatType = SeatType.STANDARD;
-
         // Check for wheelchair
         if (row == 10 && (column > 7 && column < 13)) {
             seatType = SeatType.WHEELCHAIR;
         }
-
         // Check for extra space
         if (row == 11 && (column > 7 && column < 13)) {
             seatType = SeatType.EXTRASPACE;

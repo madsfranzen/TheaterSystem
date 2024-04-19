@@ -163,19 +163,16 @@ public class SeatWindow extends Stage {
     }
 
     public void hardWayConfirmBooking() {
-        System.out.println("CONFIRMED PRESSED");
         Show show = theaterGUI.getShowPane().getSelectedShow();
         Customer customer = theaterGUI.getCustomerPane().getSelectedCustomer();
         LocalDate date = theaterGUI.getSeatPane().getDpcSeatDate().getValue();
         ArrayList<Seat> seats = new ArrayList<>();
         for (int i = 0; i < chbSeatArray.size(); i++) {
-            System.out.println("ADDING SEAT");
             if (chbSeatArray.get(i).isSelected()) {
                 seats.add(Controller.getSeats().get(i));
             }
         }
         if (seats.size() > 0) {
-            System.out.println("SEAT SIZE OVER 0");
             Booking booking = Controller.createBookingWithSeats(show, customer, date, seats);
             theaterGUI.getDialog().hide();
             theaterGUI.updatePaneControls();

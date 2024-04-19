@@ -29,7 +29,6 @@ public class TheaterGUI extends Application {
     private Stage stage;
     private Stage dialog = new Stage();
 
-
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -37,8 +36,6 @@ public class TheaterGUI extends Application {
         stage.setTitle("Theater Booking System");
         GridPane pane = new GridPane();
         this.initContent(pane);
-//        pane.setAlignment(Pos.CENTER);
-
 
         Scene scene = new Scene(pane);
         stage.setScene(scene);
@@ -53,7 +50,6 @@ public class TheaterGUI extends Application {
 
         stage.show();
     }
-
 
     private void initContent(GridPane mainPain) {
         mainPain.setPadding(new Insets(10));
@@ -71,13 +67,14 @@ public class TheaterGUI extends Application {
         mainPain.add(showPane, 0, 0);
         mainPain.add(customerPane, 1, 0);
         mainPain.add(seatPane, 2, 0);
-        mainPain.add(statisticsPane, 0, 1,3,1);
+        mainPain.add(statisticsPane, 0, 1, 3, 1);
 
         // Upadate panes
         updatePaneControls();
 
     }
 
+    // opdaterer alle skærme efter en ændring
     public void updatePaneControls() {
         showPane.updateControls();
         customerPane.updateControls();
@@ -96,13 +93,14 @@ public class TheaterGUI extends Application {
                 Color.BLACK,
                 BorderStrokeStyle.SOLID,
                 null,                                    // rounded corners
-                new BorderWidths(0, 1, 1, 0)            // top, right, bottom, left
+                new BorderWidths(0, 1, 1, 0)          // top, right, bottom, left
         );
 
         Border border = new Border(borderStroke);
         return border;
     }
 
+    // open "the hard way" window
     public void btnHardWayAction() {
         Show show = showPane.getSelectedShow();
         Customer customer = customerPane.getSelectedCustomer();
@@ -117,27 +115,6 @@ public class TheaterGUI extends Application {
         } else seatPane.getAlertHard().show();
     }
 
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public Stage getDialog() {
-        return dialog;
-    }
-
-
-    public CustomerPane getCustomerPane() {
-        return customerPane;
-    }
-
-    public ShowPane getShowPane() {
-        return showPane;
-    }
-
-    public SeatPane getSeatPane() {
-        return seatPane;
-    }
 
     public StringConverter datePickerFormat(DatePicker dpcStartDate) {
         StringConverter datePickerFormat = new StringConverter<LocalDate>() {
@@ -167,6 +144,26 @@ public class TheaterGUI extends Application {
             }
         };
         return datePickerFormat;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public Stage getDialog() {
+        return dialog;
+    }
+
+    public CustomerPane getCustomerPane() {
+        return customerPane;
+    }
+
+    public ShowPane getShowPane() {
+        return showPane;
+    }
+
+    public SeatPane getSeatPane() {
+        return seatPane;
     }
 
 }
