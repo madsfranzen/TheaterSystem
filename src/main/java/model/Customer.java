@@ -11,21 +11,18 @@ public class Customer {
     // Association Customer -> 0..* Booking
     private final ArrayList<Booking> bookings; // nullable
 
-    public Customer(String name, String phoneNumber)
-    {
+    public Customer(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.bookings = new ArrayList<>();
     }
 
-    public void addBooking(Booking booking)
-    {
+    public void addBooking(Booking booking) {
         this.bookings.add(booking);
     }
 
     @Override
-    public String toString()
-    {
-        return this.name;
+    public String toString() {
+        return name + " (" + phoneNumber + ")";
     }
 }

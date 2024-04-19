@@ -17,7 +17,22 @@ public class Seat {
 
     @Override
     public String toString() {
-        String str = " | " + row + " " + number + " " + price + " " + seatType + " ";
-        return String.format("%-25s", str);
+        return String.format("Row: %3s  Nr: %-3s  %-11s  $%4s", row, number, seatType, price);
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public SeatType getSeatType() {
+        return seatType;
     }
 }

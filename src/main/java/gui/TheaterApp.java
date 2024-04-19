@@ -11,8 +11,8 @@ public class TheaterApp {
 
     public static void main(String[] args) {
         initStorage();
-        testPrint();
-        // Application.launch(TheaterGUI.class);
+        //testPrint();
+        Application.launch(TheaterGUI.class);
     }
 
     public static void initStorage() {
@@ -54,7 +54,6 @@ public class TheaterApp {
         return price;
     }
 
-
     public static SeatType seatTypeCalculate(int row, int column) {
         SeatType seatType = SeatType.STANDARD;
 
@@ -73,7 +72,6 @@ public class TheaterApp {
     public static void testPrint() {
         System.out.println(Controller.getShows());
         System.out.println(Controller.getCustomers());
-
         for (int i = 0; i < Controller.getSeats().size(); i++) {
             System.out.print(Controller.getSeats().get(i));
             if (i % 20 == 0) {
