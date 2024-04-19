@@ -35,16 +35,12 @@ public class Show
 
     @Override
     public String toString() {
-        return "Show{" +
-                "name='" + name + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                '}';
+        return name + " (" + startDate + " Until: " + endDate + ')';
     }
     public boolean isSeatAvaliable(int row, int nr, LocalDate date){
         boolean avaliable = true;
         for (Booking b : bookings){
-            if (b.getDate() == date){
+            if (b.getDate().isEqual(date)){
                 for (Seat s: b.getSeats()){
                     if(s.getNumber() == nr && s.getRow() == row){
                         avaliable = false;

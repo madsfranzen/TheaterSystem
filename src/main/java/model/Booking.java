@@ -32,6 +32,14 @@ public class Booking
         return seats;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public Show getShow() {
+        return show;
+    }
+
     public void addSeat(Seat seat)
     {
         this.seats.add(seat);

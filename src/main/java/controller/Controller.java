@@ -41,7 +41,7 @@ public abstract class Controller {
                     booking = null;
                 }
                 else{
-
+                    booking.addSeat(s);
                 }
             }
         }
