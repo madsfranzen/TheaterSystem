@@ -136,7 +136,7 @@ public class StatisticsPane extends GridPane
             showAlert(alert, "Show doesn't have any bookings", "No bookings");
         } else
         {
-            txfSuccesDate.setText("" + show.getSuccessDate());
+            txfSuccesDate.setText("" + show.getSuccesDate());
         }
 
     }
