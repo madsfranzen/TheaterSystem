@@ -41,7 +41,7 @@ public class Show {
 
     public boolean isShowActiveOnDate(LocalDate bookingDate) {
         boolean isShowActiveOnDate = false;
-        if ((bookingDate.isAfter(startDate)) && (bookingDate.isBefore(endDate))) {
+        if ((bookingDate.isAfter(startDate.minusDays(1))) && (bookingDate.isBefore(endDate.plusDays(1)))) {
             isShowActiveOnDate = true;
         }
         return isShowActiveOnDate;

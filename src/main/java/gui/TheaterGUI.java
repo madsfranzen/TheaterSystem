@@ -63,6 +63,7 @@ public class TheaterGUI extends Application {
         seatPane = new SeatPane(this);
         statisticsPane = new StatisticsPane(this);
         statisticsPane.setAlignment(Pos.CENTER);
+
         // Add sub-panes
         mainPain.add(showPane, 0, 0);
         mainPain.add(customerPane, 1, 0);
